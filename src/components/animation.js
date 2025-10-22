@@ -5,26 +5,31 @@ gsap.registerPlugin(ScrollTrigger);
 window.Webflow ||= [];
 window.Webflow.push(() => {
   $(document).ready(function () {
-    $('[img-anim]').each(function () {
+    const $imgs = $('[img-anim]');
+    if (!$imgs.length) return;
+
+    $imgs.each(function () {
       const $img = $(this);
 
       function revealImage() {
         gsap.to($img, { opacity: 1, duration: 2, ease: 'power2.out' });
       }
 
-      if ($img[0].complete) {
-        revealImage();
+      if ($img.is('img')) {
+        if ($img[0].complete) {
+          revealImage();
+        } else {
+          $img.on('load', revealImage);
+          $img.on('error', revealImage);
+        }
       } else {
-        $img.on('load', revealImage);
-        $img.on('error', revealImage);
+        revealImage();
       }
     });
   });
 
-  gsap.registerPlugin(ScrollTrigger);
-
   let tlFounders = gsap.timeline({
-    defaults: { ease: 'power2.out' },
+    defaults: { ease: 'power1.out' },
     scrollTrigger: {
       trigger: '.container_section-allow-anim',
       start: 'top top',
