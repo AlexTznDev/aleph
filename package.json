@@ -27,6 +27,7 @@
   },
   "dependencies": {
     "esbuild-sass-plugin": "^2.16.1",
+    "gsap": "^3.13.0",
     "reeller": "^0.0.5",
     "split-type": "^0.3.4",
     "swiper": "^11.1.15"
