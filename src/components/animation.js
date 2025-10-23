@@ -146,4 +146,72 @@ window.Webflow.push(() => {
       gsap.to($img, { scale: 1, duration: 0.8, ease: 'power2.out' });
     });
   });
+
+  $('[founders-list]').each(function () {
+    const $allComponents = $('.archives-collection_dropdown-component');
+    let $currentlyOpen = null;
+
+    $allComponents.each(function () {
+      const $component = $(this);
+      const $list = $component.find('.archives-collection_dropdown-list');
+      const $icon = $component.find('.icon-1x1-small');
+
+      let isOpen = false;
+
+      gsap.set($list, { opacity: 0, y: 10, display: 'none' });
+      gsap.set($icon, { rotate: 0 });
+
+      function openDropdown() {
+        if ($currentlyOpen && $currentlyOpen[0] !== $component[0]) {
+          $currentlyOpen.data('close')();
+          $currentlyOpen = null;
+        }
+
+        gsap.set($list, { display: 'block' });
+        gsap.to($list, { opacity: 1, y: 0, duration: 0.6, ease: 'power2.out' });
+        gsap.to($icon, { rotate: 180, duration: 0.6, ease: 'power2.out' });
+
+        isOpen = true;
+        $currentlyOpen = $component;
+      }
+
+      function closeDropdown() {
+        gsap.to($list, {
+          opacity: 0,
+          y: 10,
+          duration: 0.1,
+          ease: 'power2.in',
+          onComplete: () => gsap.set($list, { display: 'none' }),
+        });
+        gsap.to($icon, { rotate: 0, duration: 0.4, ease: 'power2.in' });
+
+        isOpen = false;
+        if ($currentlyOpen && $currentlyOpen[0] === $component[0]) {
+          $currentlyOpen = null;
+        }
+      }
+
+      $component.data('close', closeDropdown);
+      $component.on('mouseenter', openDropdown);
+      $component.on('mouseleave', closeDropdown);
+    });
+
+    // 🔍 ---- OBSERVATION DE LA LISTE FOUNDER ----
+    const $list = $('[cms-list-number="founders"]');
+    const $number = $('[number="founders"]');
+
+    if ($list.length && $number.length) {
+      const updateCount = () => {
+        const count = $list.find('.founders_list-item-wrap').length;
+        $number.text(count);
+      };
+
+      // MutationObserver via élément natif mais appliqué à l'élément jQuery
+      const observer = new MutationObserver(updateCount);
+      observer.observe($list[0], { childList: true, subtree: false });
+
+      // Mise à jour initiale
+      updateCount();
+    }
+  });
 });
