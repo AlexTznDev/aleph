@@ -150,7 +150,7 @@ window.Webflow.push(() => {
   $('[founders-list]').each(function () {
     function reloadOnResize() {
       let lastWidth = window.innerWidth;
-      const breakpoint = 992;
+      const breakpoint = 767;
 
       window.addEventListener('resize', () => {
         const currentWidth = window.innerWidth;
@@ -172,7 +172,7 @@ window.Webflow.push(() => {
 
     let mm = gsap.matchMedia();
 
-    mm.add('(min-width: 993px)', () => {
+    mm.add('(min-width: 768px)', () => {
       const $allComponents = $('.archives-collection_dropdown-component');
 
       let $currentlyOpen = null;
@@ -246,15 +246,13 @@ window.Webflow.push(() => {
       });
     });
 
-    mm.add('(max-width: 992px)', () => {
+    mm.add('(max-width: 767px)', () => {
       $('[modal-filter="open"]').on('click', function () {
         $('[modal-filter="container"]').addClass('is-active');
-        $('body').css('overflow', 'hidden');
       });
 
       $('[modal-filter="close"]').on('click', function () {
         $('[modal-filter="container"]').removeClass('is-active');
-        $('body').css('overflow', '');
       });
 
       // --- Dropdowns ---
