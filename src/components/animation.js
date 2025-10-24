@@ -148,6 +148,28 @@ window.Webflow.push(() => {
   });
 
   $('[founders-list]').each(function () {
+    function reloadOnResize() {
+      let lastWidth = window.innerWidth;
+      const breakpoint = 992;
+
+      window.addEventListener('resize', () => {
+        const currentWidth = window.innerWidth;
+
+        // Vérifie si on est passé au-dessus ou en dessous du breakpoint
+        const crossedBreakpoint =
+          (lastWidth < breakpoint && currentWidth >= breakpoint) ||
+          (lastWidth >= breakpoint && currentWidth < breakpoint);
+
+        if (crossedBreakpoint) {
+          window.location.reload();
+        }
+
+        lastWidth = currentWidth;
+      });
+    }
+
+    reloadOnResize();
+
     let mm = gsap.matchMedia();
 
     mm.add('(min-width: 993px)', () => {
