@@ -11,3 +11,39 @@
 [founder-img-wrap = "circle-gold"], [venture-img-wrap = "circle-gold"]{
     opacity: 0;
 }  
+
+
+
+
+@media screen and (min-width: 992px) {
+  .venture_img-contain {
+    will-change: transform, opacity;
+    transform: translateZ(0);
+  }
+  
+  .venture_img-wrap,
+  .venture_img-wrap img {
+    will-change: transform, opacity;
+    transform: translateZ(0);
+    backface-visibility: hidden;
+  }
+  
+  
+  .founders_img-contain {
+    will-change: transform, opacity;
+    transform: translateZ(0);
+  }
+  
+  .founders_img-wrap,
+  .founders_img-wrap img {
+    will-change: transform, opacity;
+    transform: translateZ(0);
+    backface-visibility: hidden;
+  }
+
+
+}
+  
+
+
+

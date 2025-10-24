@@ -29,6 +29,13 @@ window.Webflow.push(() => {
   });
 
   $('.founders_img-contain').each(function () {
+    const $container = $(this);
+
+    $container.find('img').each(function () {
+      this.decode?.().catch(() => {});
+    });
+
+    // --- MatchMedia Desktop ---
     let mm = gsap.matchMedia();
     mm.add('(min-width: 992px)', () => {
       let tlFounders = gsap.timeline({
@@ -43,14 +50,24 @@ window.Webflow.push(() => {
       });
 
       tlFounders
-        .fromTo('.founders_img-contain', { top: '-26rem' }, { top: '36rem', duration: 2 })
-        .to('.founders_img-wrap', { scale: 0.7, duration: 2, ease: 'power1.out' }, '<')
-        .to("[founder-img-wrap='circle-gold']", { opacity: 0.5, duration: 2 }, '<')
-        .to("[founder-img-wrap='circle']", { opacity: 0, duration: 2 }, '<');
+
+        .fromTo(
+          $container,
+          { left: '50%', xPercent: -50, y: '-26rem' },
+          { y: '36rem', duration: 2 }
+        )
+        .to($container.find('.founders_img-wrap'), { scale: 0.7, duration: 2 }, '<')
+        .to($container.find("[founder-img-wrap='circle-gold']"), { opacity: 0.5, duration: 2 }, '<')
+        .to($container.find("[founder-img-wrap='circle']"), { opacity: 0, duration: 2 }, '<');
     });
   });
 
   $('.venture_img-contain').each(function () {
+    const $container = $(this);
+    $container.find('img').each(function () {
+      this.decode?.().catch(() => {});
+    });
+    // --- MatchMedia Desktop ---
     let mm = gsap.matchMedia();
     mm.add('(min-width: 992px)', () => {
       let tlVenture = gsap.timeline({
@@ -65,10 +82,16 @@ window.Webflow.push(() => {
       });
 
       tlVenture
-        .fromTo('.venture_img-contain', { top: '-12rem' }, { top: '36rem', duration: 2 })
-        .to('.venture_img-wrap', { scale: 0.7, duration: 2, ease: 'power1.out' }, '<')
-        .to("[venture-img-wrap='circle-gold']", { opacity: 0.5, duration: 2 }, '<')
-        .to("[venture-img-wrap='circle']", { opacity: 0, duration: 2 }, '<');
+        .fromTo(
+          $container,
+          { xPercent: -50, y: '-12rem', left: '50%' },
+          { y: '36rem', duration: 2 }
+        )
+
+        // Animation d'opacité sur les cercles
+        .to($container.find('.venture_img-wrap'), { scale: 0.7, duration: 2 }, '<')
+        .to($container.find("[venture-img-wrap='circle-gold']"), { opacity: 0.5, duration: 2 }, '<')
+        .to($container.find("[venture-img-wrap='circle']"), { opacity: 0, duration: 2 }, '<');
     });
   });
 
