@@ -28,7 +28,7 @@ window.Webflow.push(() => {
     });
   });
 
-  $('.founders_component').each(function () {
+  $('.founders_img-contain').each(function () {
     let mm = gsap.matchMedia();
     mm.add('(min-width: 992px)', () => {
       let tlFounders = gsap.timeline({
@@ -47,6 +47,28 @@ window.Webflow.push(() => {
         .to('.founders_img-wrap', { scale: 0.7, duration: 2, ease: 'power1.out' }, '<')
         .to("[founder-img-wrap='circle-gold']", { opacity: 0.5, duration: 2 }, '<')
         .to("[founder-img-wrap='circle']", { opacity: 0, duration: 2 }, '<');
+    });
+  });
+
+  $('.venture_img-contain').each(function () {
+    let mm = gsap.matchMedia();
+    mm.add('(min-width: 992px)', () => {
+      let tlVenture = gsap.timeline({
+        defaults: { ease: 'power1.out' },
+        scrollTrigger: {
+          trigger: '.container_section-allow-anim',
+          start: 'top top',
+          end: '+=800px',
+          scrub: 2,
+          markers: false,
+        },
+      });
+
+      tlVenture
+        .fromTo('.venture_img-contain', { top: '-12rem' }, { top: '36rem', duration: 2 })
+        .to('.venture_img-wrap', { scale: 0.7, duration: 2, ease: 'power1.out' }, '<')
+        .to("[venture-img-wrap='circle-gold']", { opacity: 0.5, duration: 2 }, '<')
+        .to("[venture-img-wrap='circle']", { opacity: 0, duration: 2 }, '<');
     });
   });
 
