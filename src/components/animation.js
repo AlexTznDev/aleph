@@ -11,26 +11,16 @@ window.Webflow.push(() => {
     $imgs.each(function () {
       const $img = $(this);
 
-      // --- Forcer l'état initial ---
-      gsap.set($img, { opacity: 0 });
-
       function revealImage() {
         gsap.to($img, { opacity: 1, duration: 2, ease: 'power2.out' });
       }
 
       if ($img.is('img')) {
-        if ($img[0].complete && $img[0].naturalWidth !== 0) {
-          // Image déjà chargée (cache ou instant)
-          requestAnimationFrame(revealImage);
+        if ($img[0].complete) {
+          revealImage();
         } else {
-          // Safari est capricieux avec "load", donc on double avec un fallback "timeout"
           $img.on('load', revealImage);
           $img.on('error', revealImage);
-
-          // Petit filet de sécurité Safari : si l'événement load ne se déclenche pas
-          setTimeout(() => {
-            if ($img.css('opacity') === '0') revealImage();
-          }, 500);
         }
       } else {
         revealImage();
