@@ -229,6 +229,10 @@ window.Webflow.push(() => {
 
         let isOpen = false;
 
+        if($list.length === 0 || $icon.length === 0) {
+          return;
+        }
+
         gsap.set($list, {
           opacity: 0,
           y: 10,
@@ -288,6 +292,9 @@ window.Webflow.push(() => {
         // 👇 Remplacé le click par hover
         $component.on('mouseenter', openDropdown);
         $component.on('mouseleave', closeDropdown);
+
+
+
       });
     });
 
@@ -315,6 +322,10 @@ window.Webflow.push(() => {
         const $toggle = $component.find('.archives-collection_dropdown-toggle');
 
         let isOpen = false;
+
+        if($list.length === 0 || $icon.length === 0 || $toggle.length === 0) {
+          return;
+        }
 
         // Init : collapse complet
         gsap.set($list, { height: 0 });
