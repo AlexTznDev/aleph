@@ -95,6 +95,40 @@ window.Webflow.push(() => {
     });
   });
 
+  $('[arrow-circle]').each(function () {
+
+    const $container = $(this);
+    $container.find('img').each(function () {
+      this.decode?.().catch(() => {});
+    });
+    // --- MatchMedia Desktop ---
+    let mm = gsap.matchMedia();
+    mm.add('(min-width: 992px)', () => {
+      let tlArrowCircle = gsap.timeline({
+        defaults: { ease: 'power1.out' },
+        scrollTrigger: {
+          trigger: '.container_section-allow-anim',
+          start: 'top top',
+          end: '+=800px',
+          scrub: 2,
+          markers: false,
+        },
+      });
+
+      tlArrowCircle
+        .fromTo(
+          $container,
+          { xPercent: -50, y: '8rem', left: '50%' },
+          { y: '30rem', duration: 2 }
+        )
+
+        // Animation d'opacité sur les cercles
+        .to($container.find('.arrow-circle_img-wrap'), { scale: 0.9, duration: 2 }, '<')
+        .to($container.find("[arrow-img-wrap='arrow-circle-gold']"), { opacity: 0.5, duration: 2 }, '<')
+        .to($container.find("[arrow-img-wrap='arrow-circle']"), { opacity: 0, duration: 2 }, '<');
+    });
+  });
+
   $('.lightbox_section').each(function () {
     function adjaxModal() {
       let lightbox = $("[tr-ajaxmodal-element='lightbox']");

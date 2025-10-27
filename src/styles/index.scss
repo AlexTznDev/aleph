@@ -8,7 +8,7 @@
 
 
 
-[founder-img-wrap = "circle-gold"], [venture-img-wrap = "circle-gold"]{
+[founder-img-wrap = "circle-gold"], [venture-img-wrap = "circle-gold"], [arrow-img-wrap='arrow-circle-gold']{
     opacity: 0;
 }  
 
@@ -40,6 +40,21 @@
     transform: translateZ(0);
     backface-visibility: hidden;
   }
+
+
+  [arrow-circle] {
+    will-change: transform, opacity;
+    transform: translateZ(0);
+  }
+  
+  .arrow-circle_img-wrap,
+  .arrow-circle_img-wrap img {
+    will-change: transform, opacity;
+    transform: translateZ(0);
+    backface-visibility: hidden;
+  }
+
+
 
 
 }
