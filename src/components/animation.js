@@ -463,4 +463,282 @@ window.Webflow.push(() => {
       moveFoundersFilter();
     }
   });
+
+
+  $('[ventures-list]').each(function () {
+    function reloadOnResize() {
+      let lastWidth = window.innerWidth;
+      const breakpoint = 767;
+
+      window.addEventListener('resize', () => {
+        const currentWidth = window.innerWidth;
+
+        // Vérifie si on est passé au-dessus ou en dessous du breakpoint
+        const crossedBreakpoint =
+          (lastWidth < breakpoint && currentWidth >= breakpoint) ||
+          (lastWidth >= breakpoint && currentWidth < breakpoint);
+
+        if (crossedBreakpoint) {
+          window.location.reload();
+        }
+
+        lastWidth = currentWidth;
+      });
+    }
+
+    reloadOnResize();
+
+    let mm = gsap.matchMedia();
+
+    mm.add('(min-width: 768px)', () => {
+      const $allComponents = $('.archives-collection_dropdown-component');
+
+      let $currentlyOpen = null;
+
+      $allComponents.each(function () {
+        const $component = $(this);
+        const $list = $component.find('.archives-collection_dropdown-list');
+        const $icon = $component.find('.icon-1x1-small');
+
+        let isOpen = false;
+
+        if($list.length === 0 || $icon.length === 0) {
+          return;
+        }
+
+        gsap.set($list, {
+          opacity: 0,
+          y: 10,
+          display: 'none',
+        });
+        gsap.set($icon, {
+          rotate: 0,
+        });
+
+        function openDropdown() {
+          if ($currentlyOpen && $currentlyOpen[0] !== $component[0]) {
+            $currentlyOpen.data('close')();
+            $currentlyOpen = null;
+          }
+
+          gsap.set($list, { display: 'block' });
+          gsap.to($list, {
+            opacity: 1,
+            y: 0,
+            duration: 0.6,
+            ease: 'power2.out',
+          });
+          gsap.to($icon, {
+            rotate: 180,
+            duration: 0.6,
+            ease: 'power2.out',
+          });
+
+          isOpen = true;
+          $currentlyOpen = $component;
+        }
+
+        function closeDropdown() {
+          gsap.to($list, {
+            opacity: 0,
+            y: 10,
+            duration: 0.1,
+            ease: 'power2.in',
+            onComplete: () => {
+              gsap.set($list, { display: 'none' });
+            },
+          });
+          gsap.to($icon, {
+            rotate: 0,
+            duration: 0.4,
+            ease: 'power2.in',
+          });
+
+          isOpen = false;
+          if ($currentlyOpen && $currentlyOpen[0] === $component[0]) {
+            $currentlyOpen = null;
+          }
+        }
+
+        $component.data('close', closeDropdown);
+
+        // 👇 Remplacé le click par hover
+        $component.on('mouseenter', openDropdown);
+        $component.on('mouseleave', closeDropdown);
+
+
+
+      });
+    });
+
+    mm.add('(max-width: 767px)', () => {
+      $('[modal-filter="open"]').on('click', function () {
+        $('[modal-filter="container"]').addClass('is-active');
+      });
+
+      $('[modal-filter="close"]').on('click', function () {
+        $('[modal-filter="container"]').removeClass('is-active');
+      });
+
+      // --- Dropdowns ---
+      const $allComponents = $('.archives-collection_dropdown-component');
+
+      let $currentlyOpen = null;
+      let isAnimating = false; // ← empêche d’ouvrir pendant qu’un autre se ferme
+
+      $allComponents.each(function () {
+        const $component = $(this);
+        const $list = $component.find('.archives-collection_dropdown-list');
+
+        const $icon = $component.find('.icon-1x1-small');
+
+        const $toggle = $component.find('.archives-collection_dropdown-toggle');
+
+        let isOpen = false;
+
+        if($list.length === 0 || $icon.length === 0 || $toggle.length === 0) {
+          return;
+        }
+
+        // Init : collapse complet
+        gsap.set($list, { height: 0 });
+        gsap.set($icon, { rotate: 0 });
+
+        function openDropdown() {
+          if (isAnimating) return; // attend que l'autre soit fini
+
+          // Si un autre est ouvert → le fermer d'abord
+          if ($currentlyOpen && $currentlyOpen[0] !== $component[0]) {
+            const previous = $currentlyOpen;
+            isAnimating = true;
+
+            previous.data('close')(true, () => {
+              // une fois que l'autre est fermé, on ouvre celui-ci
+              isAnimating = false;
+              openDropdown();
+            });
+            return;
+          }
+
+          // Animation d’ouverture
+          gsap.to($list, {
+            height: 'auto',
+            duration: 0.4,
+            ease: 'power2.out',
+          });
+
+          gsap.to($icon, {
+            rotate: 180,
+            duration: 0.4,
+            ease: 'power2.out',
+          });
+
+          isOpen = true;
+          $currentlyOpen = $component;
+        }
+
+        // accepte un callback pour quand la fermeture est finie
+        function closeDropdown(skipAnimation = false, onClosed = null) {
+          const animProps = {
+            height: 0,
+            duration: skipAnimation ? 0 : 0.3,
+            ease: 'power2.in',
+            onComplete: () => {
+              isOpen = false;
+              if ($currentlyOpen && $currentlyOpen[0] === $component[0]) {
+                $currentlyOpen = null;
+              }
+              if (onClosed) onClosed(); // ← callback déclenché quand c’est fini
+            },
+          };
+
+          gsap.to($list, animProps);
+          gsap.to($icon, {
+            rotate: 0,
+            duration: skipAnimation ? 0 : 0.3,
+            ease: 'power2.in',
+          });
+        }
+
+        $component.data('close', closeDropdown);
+
+        $toggle.on('click', function (e) {
+          e.preventDefault();
+          e.stopPropagation();
+          if (isAnimating) return; // bloque le spam click
+          isOpen ? closeDropdown() : openDropdown();
+        });
+
+        $list.on('click', function (e) {
+          e.stopPropagation();
+        });
+      });
+    });
+
+    // ---- OBSERVATION DE LA LISTE FOUNDER ----
+    const $list = $('[cms-list-number="ventures"]');
+    const $number = $('[number="ventures"]');
+
+    if ($list.length && $number.length) {
+      const updateCount = () => {
+        const count = $list.find('.founders_list-item-wrap').length;
+        $number.text(count);
+      };
+
+      // MutationObserver via élément natif mais appliqué à l'élément jQuery
+      const observer = new MutationObserver(updateCount);
+      observer.observe($list[0], { childList: true, subtree: false });
+
+      // Mise à jour initiale
+      updateCount();
+    }
+
+    // Fonction pour déplacer l'élément filter-list="founders"
+    function moveFoundersFilter() {
+      const foundersFilter = document.querySelector('[filter-list="ventures"]');
+      const mobileContainer = document.querySelector('.modal_filter-mobile-contain');
+      const desktopContainer = document.querySelector('.archives_filter-container');
+
+      if (!foundersFilter || !mobileContainer || !desktopContainer) {
+        console.warn('Un ou plusieurs éléments sont introuvables');
+        return;
+      }
+
+      // Vérifier la largeur de l'écran
+      if (window.innerWidth <= 767) {
+        // Mobile: déplacer dans .modal_filter-mobile-contain
+        if (!mobileContainer.contains(foundersFilter)) {
+          mobileContainer.appendChild(foundersFilter);
+        }
+      } else {
+        // Desktop: déplacer dans .archives_filter-container
+        if (!desktopContainer.contains(foundersFilter)) {
+          desktopContainer.appendChild(foundersFilter);
+        }
+      }
+    }
+
+    // Exécuter au chargement de la page
+    document.addEventListener('DOMContentLoaded', moveFoundersFilter);
+
+    // Exécuter lors du redimensionnement de la fenêtre
+    let resizeTimer;
+    window.addEventListener('resize', function () {
+      // Debounce pour optimiser les performances
+      clearTimeout(resizeTimer);
+      resizeTimer = setTimeout(moveFoundersFilter, 100);
+    });
+
+    // Si le DOM est déjà chargé, exécuter immédiatement
+    if (document.readyState === 'loading') {
+      document.addEventListener('DOMContentLoaded', moveFoundersFilter);
+    } else {
+      moveFoundersFilter();
+    }
+  });
+
+
+
+
+
 });
