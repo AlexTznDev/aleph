@@ -55,7 +55,7 @@ window.Webflow.push(() => {
 
         .fromTo(
           $container,
-          { left: '50%', xPercent: -50, y: '-26rem' },
+          { xPercent: -50, y: '-26rem' , left: '50%'  },
           { y: '36rem', duration: 2 }
         )
         .to($container.find('.founders_img-wrap'), { scale: 0.7, duration: 2 }, '<')
