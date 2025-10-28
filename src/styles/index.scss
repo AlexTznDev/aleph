@@ -54,9 +54,41 @@
     backface-visibility: hidden;
   }
 
+  .about-title {
+    display: inline-block;
+    background: radial-gradient(circle at 80% 80%, #5D5B5C 0%, #B7B6B6 70%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    text-fill-color: transparent;
+    transition: background 0.2s ease-out;
+  }
+  
+
+  .hero_circle-about-contain{
+    opacity: 0;
+  }
+
+
+}
 
 
 
+@media screen and (max-width: 991px) {
+  .about-title {
+    display: inline-block;
+    background: radial-gradient(circle at 50% 50%, #2f2f2f 0%, #B7B6B6 70%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    text-fill-color: transparent;
+    transition: background 0.2s ease-out;
+  }
+  
+
+  .hero_circle-about-contain{
+    opacity: 0.7;
+  }
 }
   
 

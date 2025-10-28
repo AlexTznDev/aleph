@@ -772,7 +772,109 @@ window.Webflow.push(() => {
   });
 
 
+  $('.hero_component.is-about').each(function () {
 
 
+    const mm = gsap.matchMedia();
+
+mm.add("(min-width: 992px)", () => {
+
+    const $container = $(this);
+    const $titleContain = $container.find('.hero_title-wrap.is-about');
+    const $circle = $container.find('.hero_circle-about-contain');
+    const $title = $container.find('.about-title');
+  
+    if (!$titleContain.length || !$circle.length || !$title.length) return;
+  
+    $circle.css({
+      position: 'absolute',
+      top: 0,
+      left: 0,
+      pointerEvents: 'none',
+      opacity: 0,
+    });
+  
+    // --- Apparition fluide du cercle ---
+    gsap.to($circle, { opacity: 0.7, duration: 1, delay: 0.5, ease: 'power2.out' });
+  
+    // --- Placement initial (80% / 80%) ---
+    const rect = $titleContain[0].getBoundingClientRect();
+    const circleRect = $circle[0].getBoundingClientRect();
+    const circleW = circleRect.width;
+    const circleH = circleRect.height;
+  
+    const startX = rect.width * 0.8 - circleW / 2;
+    const startY = rect.height * 0.8 - circleH / 2;
+  
+    gsap.set($circle, { x: startX, y: startY });
+  
+    // --- Variables ---
+    let rafId = null;
+    let targetX = rect.width * 0.8;
+    let targetY = rect.height * 0.8;
+    let currentX = rect.width * 0.8;
+    let currentY = rect.height * 0.8;
+  
+    // --- Ecoute du mouvement ---
+    $titleContain.on('mousemove', function (e) {
+      const rect = $titleContain[0].getBoundingClientRect();
+      targetX = e.clientX - rect.left;
+      targetY = e.clientY - rect.top;
+  
+      const circleRect = $circle[0].getBoundingClientRect();
+      const circleW = circleRect.width;
+      const circleH = circleRect.height;
+  
+      const x = targetX - circleW / 2;
+      const y = targetY - circleH / 2;
+  
+      gsap.to($circle, {
+        x,
+        y,
+        duration: 0.15,
+        ease: 'power2.out',
+      });
+  
+      if (!rafId) animateGradient();
+    });
+  
+    // --- Animation lissée du gradient ---
+    function animateGradient() {
+      rafId = requestAnimationFrame(animateGradient);
+  
+      const lerpFactor = 0.08;
+      currentX += (targetX - currentX) * lerpFactor;
+      currentY += (targetY - currentY) * lerpFactor;
+  
+      const rect = $titleContain[0].getBoundingClientRect();
+      const percentX = (currentX / rect.width) * 100;
+      const percentY = (currentY / rect.height) * 100;
+  
+      const gradient = `radial-gradient(circle at ${percentX}% ${percentY}%, #5D5B5C 0%, #B7B6B6 70%)`;
+      $title.css({
+        background: gradient,
+        '-webkit-background-clip': 'text',
+        '-webkit-text-fill-color': 'transparent',
+        'background-clip': 'text',
+        'text-fill-color': 'transparent',
+      });
+    }
+  
+    // --- Gradient initial à 80% / 80% ---
+    const initialGradient = `radial-gradient(circle at 80% 80%, #5D5B5C 0%, #B7B6B6 70%)`;
+    $title.css({
+      background: initialGradient,
+      '-webkit-background-clip': 'text',
+      '-webkit-text-fill-color': 'transparent',
+      'background-clip': 'text',
+      'text-fill-color': 'transparent',
+    });
+  });
+  
+  
+  
+})
+  
+ 
 
 });
