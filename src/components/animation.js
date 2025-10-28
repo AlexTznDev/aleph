@@ -12,7 +12,7 @@ window.Webflow.push(() => {
       const $img = $(this);
 
       function revealImage() {
-        gsap.to($img, { opacity: 1, duration: 2, delay: .5, ease: 'power2.out' });
+        gsap.to($img, { opacity: 1, duration: 2, delay: 0.5, ease: 'power2.out' });
       }
 
       if ($img.is('img')) {
@@ -29,20 +29,20 @@ window.Webflow.push(() => {
   });
   $('.founders_img-contain').each(function () {
     const $container = $(this);
-  
+
     // Pré-décodage des images
     $container.find('img').each(function () {
       this.decode?.().catch(() => {});
     });
-  
+
     const isSafari = /^((?!chrome|android).)*safari/i.test(navigator.userAgent);
-  
+
     // --- MatchMedia Desktop ---
     let mm = gsap.matchMedia();
     mm.add('(min-width: 992px)', () => {
       // 🧠 Important : ne set que ce conteneur (pas tous)
       if (isSafari) gsap.set($container, { force3D: true, z: 0.01 });
-  
+
       let tlFounders = gsap.timeline({
         defaults: { ease: 'power1.out' },
         scrollTrigger: {
@@ -53,7 +53,7 @@ window.Webflow.push(() => {
           markers: false,
         },
       });
-  
+
       tlFounders
         .fromTo(
           $container,
@@ -65,7 +65,6 @@ window.Webflow.push(() => {
         .to($container.find("[founder-img-wrap='circle']"), { opacity: 0, duration: 2 }, '<');
     });
   });
-  
 
   $('.venture_img-contain').each(function () {
     const $container = $(this);
@@ -101,7 +100,6 @@ window.Webflow.push(() => {
   });
 
   $('[arrow-circle]').each(function () {
-
     const $container = $(this);
     $container.find('img').each(function () {
       this.decode?.().catch(() => {});
@@ -121,15 +119,15 @@ window.Webflow.push(() => {
       });
 
       tlArrowCircle
-        .fromTo(
-          $container,
-          { xPercent: -50, y: '8rem', left: '50%' },
-          { y: '30rem', duration: 2 }
-        )
+        .fromTo($container, { xPercent: -50, y: '8rem', left: '50%' }, { y: '30rem', duration: 2 })
 
         // Animation d'opacité sur les cercles
         .to($container.find('.arrow-circle_img-wrap'), { scale: 0.9, duration: 2 }, '<')
-        .to($container.find("[arrow-img-wrap='arrow-circle-gold']"), { opacity: 0.5, duration: 2 }, '<')
+        .to(
+          $container.find("[arrow-img-wrap='arrow-circle-gold']"),
+          { opacity: 0.5, duration: 2 },
+          '<'
+        )
         .to($container.find("[arrow-img-wrap='arrow-circle']"), { opacity: 0, duration: 2 }, '<');
     });
   });
@@ -268,7 +266,7 @@ window.Webflow.push(() => {
 
         let isOpen = false;
 
-        if($list.length === 0 || $icon.length === 0) {
+        if ($list.length === 0 || $icon.length === 0) {
           return;
         }
 
@@ -331,9 +329,6 @@ window.Webflow.push(() => {
         // 👇 Remplacé le click par hover
         $component.on('mouseenter', openDropdown);
         $component.on('mouseleave', closeDropdown);
-
-
-
       });
     });
 
@@ -362,7 +357,7 @@ window.Webflow.push(() => {
 
         let isOpen = false;
 
-        if($list.length === 0 || $icon.length === 0 || $toggle.length === 0) {
+        if ($list.length === 0 || $icon.length === 0 || $toggle.length === 0) {
           return;
         }
 
@@ -503,7 +498,6 @@ window.Webflow.push(() => {
     }
   });
 
-
   $('[ventures-list]').each(function () {
     function reloadOnResize() {
       let lastWidth = window.innerWidth;
@@ -541,7 +535,7 @@ window.Webflow.push(() => {
 
         let isOpen = false;
 
-        if($list.length === 0 || $icon.length === 0) {
+        if ($list.length === 0 || $icon.length === 0) {
           return;
         }
 
@@ -604,9 +598,6 @@ window.Webflow.push(() => {
         // 👇 Remplacé le click par hover
         $component.on('mouseenter', openDropdown);
         $component.on('mouseleave', closeDropdown);
-
-
-
       });
     });
 
@@ -635,7 +626,7 @@ window.Webflow.push(() => {
 
         let isOpen = false;
 
-        if($list.length === 0 || $icon.length === 0 || $toggle.length === 0) {
+        if ($list.length === 0 || $icon.length === 0 || $toggle.length === 0) {
           return;
         }
 
@@ -776,110 +767,253 @@ window.Webflow.push(() => {
     }
   });
 
-
   $('.hero_component.is-about').each(function () {
-
-
     const mm = gsap.matchMedia();
 
-    mm.add("(min-width: 992px)", () => {
+    mm.add('(min-width: 992px)', () => {
+      const $container = $(this);
+      const $titleContain = $container.find('.hero_title-wrap.is-about');
+      const $circle = $container.find('.hero_circle-about-contain');
+      const $title = $container.find('.about-title');
+      const $paragrapheWrap = $container.find('.hero_paragraphe-wrap.is-about');
+      const $aboutImg1 = $container.find('.about_img-wrap.is-1');
+      const $aboutImg2 = $container.find('.about_img-wrap.is-2');
 
-    const $container = $(this);
-    const $titleContain = $container.find('.hero_title-wrap.is-about');
-    const $circle = $container.find('.hero_circle-about-contain');
-    const $title = $container.find('.about-title');
-  
-    if (!$titleContain.length || !$circle.length || !$title.length) return;
-  
-    $circle.css({
-      position: 'absolute',
-      top: 0,
-      left: 0,
-      pointerEvents: 'none',
-      opacity: 0,
-    });
-  
-    // --- Apparition fluide du cercle ---
-    gsap.to($circle, { opacity: 1, duration: 1, delay: 0.5, ease: 'power2.out' });
-  
-    // --- Placement initial (80% / 80%) ---
-    const rect = $titleContain[0].getBoundingClientRect();
-    const circleRect = $circle[0].getBoundingClientRect();
-    const circleW = circleRect.width;
-    const circleH = circleRect.height;
-  
-    const startX = rect.width * 0.8 - circleW / 2;
-    const startY = rect.height * 0.8 - circleH / 2;
-  
-    gsap.set($circle, { x: startX, y: startY });
-  
-    // --- Variables ---
-    let rafId = null;
-    let targetX = rect.width * 0.8;
-    let targetY = rect.height * 0.8;
-    let currentX = rect.width * 0.8;
-    let currentY = rect.height * 0.8;
-  
-    // --- Ecoute du mouvement ---
-    $titleContain.on('mousemove', function (e) {
+      if (
+        !$titleContain.length ||
+        !$circle.length ||
+        !$title.length ||
+        !$paragrapheWrap.length ||
+        !$aboutImg1.length ||
+        !$aboutImg2.length
+      )
+        return;
+
+      $circle.css({
+        position: 'absolute',
+        top: 0,
+        left: 0,
+        pointerEvents: 'none',
+        opacity: 0,
+      });
+
+      // --- Apparition fluide du cercle ---
+      gsap.to($circle, { opacity: 1, duration: 1, delay: 0.5, ease: 'power2.out' });
+      gsap.to($paragrapheWrap, { opacity: 1, y: 0, duration: 1, delay: 0.5, ease: 'power2.out' });
+      gsap.to($aboutImg1, {
+        opacity: 0.9,
+        y: 0,
+        x: 0,
+        duration: 2,
+        delay: 0.5,
+        ease: 'power2.out',
+      });
+      gsap.to($aboutImg2, {
+        opacity: 0.9,
+        y: 0,
+        x: 0,
+        duration: 2,
+        delay: 0.5,
+        ease: 'power2.out',
+      });
+
+      // --- Placement initial (80% / 80%) ---
       const rect = $titleContain[0].getBoundingClientRect();
-      targetX = e.clientX - rect.left;
-      targetY = e.clientY - rect.top;
-  
       const circleRect = $circle[0].getBoundingClientRect();
       const circleW = circleRect.width;
       const circleH = circleRect.height;
-  
-      const x = targetX - circleW / 2;
-      const y = targetY - circleH / 2;
-  
-      gsap.to($circle, {
-        x,
-        y,
-        duration: 0.50,
-        ease: 'power2.out',
+
+      const startX = rect.width * 0.8 - circleW / 2;
+      const startY = rect.height * 0.8 - circleH / 2;
+
+      gsap.set($circle, { x: startX, y: startY });
+
+      // --- Variables ---
+      let rafId = null;
+      let targetX = rect.width * 0.8;
+      let targetY = rect.height * 0.8;
+      let currentX = rect.width * 0.8;
+      let currentY = rect.height * 0.8;
+
+      // --- Ecoute du mouvement ---
+      $titleContain.on('mousemove', function (e) {
+        const rect = $titleContain[0].getBoundingClientRect();
+        targetX = e.clientX - rect.left;
+        targetY = e.clientY - rect.top;
+
+        const circleRect = $circle[0].getBoundingClientRect();
+        const circleW = circleRect.width;
+        const circleH = circleRect.height;
+
+        const x = targetX - circleW / 2;
+        const y = targetY - circleH / 2;
+
+        gsap.to($circle, {
+          x,
+          y,
+          duration: 0.5,
+          ease: 'power2.out',
+        });
+
+        if (!rafId) animateGradient();
       });
-  
-      if (!rafId) animateGradient();
-    });
-  
-    // --- Animation lissée du gradient ---
-    function animateGradient() {
-      rafId = requestAnimationFrame(animateGradient);
-  
-      const lerpFactor = 0.08;
-      currentX += (targetX - currentX) * lerpFactor;
-      currentY += (targetY - currentY) * lerpFactor;
-  
-      const rect = $titleContain[0].getBoundingClientRect();
-      const percentX = (currentX / rect.width) * 100;
-      const percentY = (currentY / rect.height) * 100;
-  
-      const gradient = `radial-gradient(circle at ${percentX}% ${percentY}%, #5D5B5C 0%, #B7B6B6 70%)`;
+
+      // --- Animation lissée du gradient ---
+      function animateGradient() {
+        rafId = requestAnimationFrame(animateGradient);
+
+        const lerpFactor = 0.08;
+        currentX += (targetX - currentX) * lerpFactor;
+        currentY += (targetY - currentY) * lerpFactor;
+
+        const rect = $titleContain[0].getBoundingClientRect();
+        const percentX = (currentX / rect.width) * 100;
+        const percentY = (currentY / rect.height) * 100;
+
+        const gradient = `radial-gradient(circle at ${percentX}% ${percentY}%, #5D5B5C 0%, #B7B6B6 70%)`;
+        $title.css({
+          background: gradient,
+          '-webkit-background-clip': 'text',
+          '-webkit-text-fill-color': 'transparent',
+          'background-clip': 'text',
+          'text-fill-color': 'transparent',
+        });
+      }
+
+      // --- Gradient initial à 80% / 80% ---
+      const initialGradient = `radial-gradient(circle at 80% 80%, #5D5B5C 0%, #B7B6B6 70%)`;
       $title.css({
-        background: gradient,
+        background: initialGradient,
         '-webkit-background-clip': 'text',
         '-webkit-text-fill-color': 'transparent',
         'background-clip': 'text',
         'text-fill-color': 'transparent',
       });
-    }
-  
-    // --- Gradient initial à 80% / 80% ---
-    const initialGradient = `radial-gradient(circle at 80% 80%, #5D5B5C 0%, #B7B6B6 70%)`;
-    $title.css({
-      background: initialGradient,
-      '-webkit-background-clip': 'text',
-      '-webkit-text-fill-color': 'transparent',
-      'background-clip': 'text',
-      'text-fill-color': 'transparent',
+
+      let tlAboutImgWrap = gsap.timeline({
+        defaults: { ease: 'power2.out' },
+        scrollTrigger: {
+          trigger: '.hero_about-img-contain',
+          start: 'top center',
+          end: 'bottom center',
+          scrub: 2,
+          markers: false,
+        },
+      });
+
+      tlAboutImgWrap
+        .to($aboutImg1, { yPercent: 5, xPercent: 5, duration: 2 })
+        .to($aboutImg2, { yPercent: -5, xPercent: -10, duration: 2 }, '<');
     });
   });
-  
-  
-  
-})
-  
- 
 
+  $('.partner_component').each(function () {
+    if (window.innerWidth > 768) {
+      //ANIMATION GRID LOGO
+      const logoGrid = document.querySelector('.confiance_logo-grid');
+
+      const positions = ['20%', '40%', '60%', '80%'];
+
+      function createLogoShapes() {
+        positions.forEach((position, index) => {
+          const logoShapeContain = document.createElement('div');
+          logoShapeContain.classList.add('logo_shape-contain');
+
+          logoShapeContain.style.position = 'absolute';
+          logoShapeContain.style.left = position;
+
+          const logoShape = document.createElement('div');
+          logoShape.classList.add('logo-shape');
+
+          logoShapeContain.appendChild(logoShape);
+
+          logoGrid.appendChild(logoShapeContain);
+
+          animateLogoShape(logoShape);
+        });
+      }
+
+      function animateLogoShape(shape) {
+        const delay = Math.random() * 5;
+
+        gsap.timeline({ repeat: -1, repeatDelay: 1, delay: delay }).fromTo(
+          shape,
+          { y: '-100%' },
+          {
+            y: '1000%',
+            duration: 2,
+            ease: 'none',
+            onComplete: () => {
+              gsap.set(shape, { y: '-100%' });
+            },
+          }
+        );
+      }
+
+      createLogoShapes();
+
+      const topPositions = ['25%', '50%', '75%'];
+
+      function createHorizontalLogoShapes() {
+        topPositions.forEach((topPosition, index) => {
+          const logoShapeContainHorizontal = document.createElement('div');
+          logoShapeContainHorizontal.classList.add('logo_shape-contain-horizontal');
+
+          logoShapeContainHorizontal.style.position = 'absolute';
+          logoShapeContainHorizontal.style.top = topPosition;
+
+          const logoShapeHorizontal = document.createElement('div');
+          logoShapeHorizontal.classList.add('logo-shape-horizontale');
+
+          logoShapeContainHorizontal.appendChild(logoShapeHorizontal);
+
+          logoGrid.appendChild(logoShapeContainHorizontal);
+
+          animateHorizontalLogoShape(logoShapeHorizontal);
+        });
+      }
+
+      function animateHorizontalLogoShape(shape) {
+        const delay = Math.random() * 5;
+
+        gsap.timeline({ repeat: -1, repeatDelay: 1, delay: delay }).fromTo(
+          shape,
+          { x: '-100%' },
+          {
+            x: '1000%',
+            duration: 2,
+            ease: 'none',
+            onComplete: () => {
+              gsap.set(shape, { x: '-100%' });
+            },
+          }
+        );
+      }
+
+      createHorizontalLogoShapes();
+
+      const logos = document.querySelectorAll('.confiance_logo');
+
+      logos.forEach((logo) => {
+        const randomDelay = Math.random() * 3;
+
+        gsap.fromTo(
+          logo,
+          { opacity: 0.25 },
+          {
+            opacity: 0.5,
+            duration: 1,
+            delay: randomDelay,
+            ease: 'power2.out',
+            scrollTrigger: {
+              trigger: '.confiance_logo-grid',
+              start: 'top center',
+              end: 'bottom top',
+              toggleActions: 'play none none none',
+            },
+          }
+        );
+      });
+    }
+  });
 });

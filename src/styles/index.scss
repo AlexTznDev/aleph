@@ -68,6 +68,23 @@
     opacity: 0;
   }
 
+  .hero_paragraphe-wrap.is-about{
+    opacity: 0;
+    transform: translateY(1.5rem);
+  }
+
+  .about_img-wrap{
+    will-change: transform, opacity;
+    transform: translateZ(0);
+    backface-visibility: hidden;
+  }
+  .about_img-wrap img {
+    will-change: transform, opacity;
+    transform: translateZ(0);
+    backface-visibility: hidden;
+  }
+
+
 
 }
 
