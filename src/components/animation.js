@@ -36,13 +36,12 @@ window.Webflow.push(() => {
     });
   
     const isSafari = /^((?!chrome|android).)*safari/i.test(navigator.userAgent);
-
-    if (!isSafari){
-
-          // --- MatchMedia Desktop ---
+  
+    // --- MatchMedia Desktop ---
     let mm = gsap.matchMedia();
     mm.add('(min-width: 992px)', () => {
-
+      // 🧠 Important : ne set que ce conteneur (pas tous)
+      if (isSafari) gsap.set($container, { force3D: true, z: 0.01 });
   
       let tlFounders = gsap.timeline({
         defaults: { ease: 'power1.out' },
@@ -65,10 +64,6 @@ window.Webflow.push(() => {
         .to($container.find("[founder-img-wrap='circle-gold']"), { opacity: 0.5, duration: 2 }, '<')
         .to($container.find("[founder-img-wrap='circle']"), { opacity: 0, duration: 2 }, '<');
     });
-
-    }
-  
-
   });
   
 
