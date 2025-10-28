@@ -30,17 +30,8 @@
   
   
   .founders_img-contain {
-     /* --- GPU compositing fixes --- */
-  will-change: transform, opacity;
-  transform: translate3d(-50%, 0, 0);
-  -webkit-transform: translate3d(-50%, 0, 0);
-  transform-style: preserve-3d;
-  -webkit-transform-style: preserve-3d;
-  perspective: 1000px;
-  -webkit-perspective: 1000px;
-  backface-visibility: hidden;
-  -webkit-backface-visibility: hidden;
-  isolation: isolate;
+    will-change: transform, opacity;
+    transform: translateZ(0);
   }
   
   .founders_img-wrap,
