@@ -12,7 +12,7 @@ window.Webflow.push(() => {
       const $img = $(this);
 
       function revealImage() {
-        gsap.to($img, { opacity: 1, duration: 2, delay: 1, ease: 'power2.out' });
+        gsap.to($img, { opacity: 1, duration: 2, delay: .5, ease: 'power2.out' });
       }
 
       if ($img.is('img')) {
@@ -27,19 +27,22 @@ window.Webflow.push(() => {
       }
     });
   });
-
   $('.founders_img-contain').each(function () {
     const $container = $(this);
-
+  
+    // Pré-décodage des images
     $container.find('img').each(function () {
       this.decode?.().catch(() => {});
     });
-
-
-
+  
+    const isSafari = /^((?!chrome|android).)*safari/i.test(navigator.userAgent);
+  
     // --- MatchMedia Desktop ---
     let mm = gsap.matchMedia();
     mm.add('(min-width: 992px)', () => {
+      // 🧠 Important : ne set que ce conteneur (pas tous)
+      if (isSafari) gsap.set($container, { force3D: true, z: 0.01 });
+  
       let tlFounders = gsap.timeline({
         defaults: { ease: 'power1.out' },
         scrollTrigger: {
@@ -50,12 +53,11 @@ window.Webflow.push(() => {
           markers: false,
         },
       });
-
+  
       tlFounders
-
         .fromTo(
           $container,
-          { xPercent: -50, y: '-26rem' , left: '50%'  },
+          { xPercent: -50, y: '-26rem', left: '50%' },
           { y: '36rem', duration: 2 }
         )
         .to($container.find('.founders_img-wrap'), { scale: 0.7, duration: 2 }, '<')
@@ -63,6 +65,7 @@ window.Webflow.push(() => {
         .to($container.find("[founder-img-wrap='circle']"), { opacity: 0, duration: 2 }, '<');
     });
   });
+  
 
   $('.venture_img-contain').each(function () {
     const $container = $(this);
