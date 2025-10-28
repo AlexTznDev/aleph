@@ -12,7 +12,7 @@ window.Webflow.push(() => {
       const $img = $(this);
 
       function revealImage() {
-        gsap.to($img, { opacity: 1, duration: 2, delay: 0.5, ease: 'power2.out' });
+        gsap.to($img, { opacity: 1, duration: 2, delay: 1, ease: 'power2.out' });
       }
 
       if ($img.is('img')) {
