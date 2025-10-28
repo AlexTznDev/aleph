@@ -800,7 +800,7 @@ window.Webflow.push(() => {
     });
   
     // --- Apparition fluide du cercle ---
-    gsap.to($circle, { opacity: 0.7, duration: 1, delay: 0.5, ease: 'power2.out' });
+    gsap.to($circle, { opacity: 1, duration: 1, delay: 0.5, ease: 'power2.out' });
   
     // --- Placement initial (80% / 80%) ---
     const rect = $titleContain[0].getBoundingClientRect();
@@ -836,7 +836,7 @@ window.Webflow.push(() => {
       gsap.to($circle, {
         x,
         y,
-        duration: 0.15,
+        duration: 0.50,
         ease: 'power2.out',
       });
   
