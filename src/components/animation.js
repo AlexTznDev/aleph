@@ -35,6 +35,12 @@ window.Webflow.push(() => {
       this.decode?.().catch(() => {});
     });
 
+    const isSafari = /^((?!chrome|android).)*safari/i.test(navigator.userAgent);
+if (isSafari) {
+  gsap.set('.founders_img-contain', { force3D: true, z: 0.01 });
+}
+
+
     // --- MatchMedia Desktop ---
     let mm = gsap.matchMedia();
     mm.add('(min-width: 992px)', () => {
