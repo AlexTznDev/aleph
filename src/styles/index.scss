@@ -18,11 +18,7 @@
 @media screen and (min-width: 992px) {
   .venture_img-contain {
     will-change: transform, opacity;
-    transform: translate3d(0, 0, 0);
-    -webkit-transform: translate3d(0, 0, 0);
-    backface-visibility: hidden;
-    -webkit-backface-visibility: hidden;
-    contain: layout paint;
+    transform: translateZ(0);
   }
   
   .venture_img-wrap,
@@ -34,14 +30,18 @@
   
   
   .founders_img-contain {
-    will-change: transform, opacity;
-    transform: translate3d(0, 0, 0);
-    -webkit-transform: translate3d(0, 0, 0);
-    backface-visibility: hidden;
-    -webkit-backface-visibility: hidden;
-    contain: layout paint;
+     /* --- GPU compositing fixes --- */
+  will-change: transform, opacity;
+  transform: translate3d(-50%, 0, 0);
+  -webkit-transform: translate3d(-50%, 0, 0);
+  transform-style: preserve-3d;
+  -webkit-transform-style: preserve-3d;
+  perspective: 1000px;
+  -webkit-perspective: 1000px;
+  backface-visibility: hidden;
+  -webkit-backface-visibility: hidden;
+  isolation: isolate;
   }
-  
   
   .founders_img-wrap,
   .founders_img-wrap img {

@@ -777,7 +777,7 @@ window.Webflow.push(() => {
 
     const mm = gsap.matchMedia();
 
-mm.add("(min-width: 992px)", () => {
+    mm.add("(min-width: 992px)", () => {
 
     const $container = $(this);
     const $titleContain = $container.find('.hero_title-wrap.is-about');
