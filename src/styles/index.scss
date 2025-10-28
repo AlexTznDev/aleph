@@ -18,7 +18,11 @@
 @media screen and (min-width: 992px) {
   .venture_img-contain {
     will-change: transform, opacity;
-    transform: translateZ(0);
+    transform: translate3d(0, 0, 0);
+    -webkit-transform: translate3d(0, 0, 0);
+    backface-visibility: hidden;
+    -webkit-backface-visibility: hidden;
+    contain: layout paint;
   }
   
   .venture_img-wrap,
@@ -31,8 +35,13 @@
   
   .founders_img-contain {
     will-change: transform, opacity;
-    transform: translateZ(0);
+    transform: translate3d(0, 0, 0);
+    -webkit-transform: translate3d(0, 0, 0);
+    backface-visibility: hidden;
+    -webkit-backface-visibility: hidden;
+    contain: layout paint;
   }
+  
   
   .founders_img-wrap,
   .founders_img-wrap img {
