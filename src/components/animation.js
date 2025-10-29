@@ -1001,7 +1001,7 @@ window.Webflow.push(() => {
           logo,
           { opacity: 0.25 },
           {
-            opacity: 0.5,
+            opacity: 1,
             duration: 1,
             delay: randomDelay,
             ease: 'power2.out',

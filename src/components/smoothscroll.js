@@ -19,11 +19,3 @@ gsap.ticker.lagSmoothing(0);
 // --- BOUTONS START / STOP ---
 $('[data-lenis-start]').on('click', () => lenis.start());
 $('[data-lenis-stop]').on('click', () => lenis.stop());
-
-// --- Scroll top au chargement ---
-window.addEventListener('load', () => {
-  lenis.scrollTo(0, { immediate: true });
-});
-window.onbeforeunload = function () {
-  lenis.scrollTo(0, { immediate: true });
-};
