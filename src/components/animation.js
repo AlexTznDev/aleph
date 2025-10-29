@@ -1,6 +1,10 @@
 import gsap from 'gsap';
 import ScrollTrigger from 'gsap/ScrollTrigger';
-gsap.registerPlugin(ScrollTrigger);
+import Reeller from 'reeller';
+import { MotionPathPlugin } from 'gsap/MotionPathPlugin';
+gsap.registerPlugin(ScrollTrigger, MotionPathPlugin);
+
+Reeller.registerGSAP(gsap);
 
 window.Webflow ||= [];
 window.Webflow.push(() => {
@@ -907,7 +911,7 @@ window.Webflow.push(() => {
     });
   });
 
-  $('.partner_component').each(function () {
+  $('.enduring-partners_component').each(function () {
     if (window.innerWidth > 768) {
       //ANIMATION GRID LOGO
       const logoGrid = document.querySelector('.confiance_logo-grid');
@@ -1014,6 +1018,131 @@ window.Webflow.push(() => {
           }
         );
       });
+
+      // const partnerLogosContainer = document.querySelectorAll('.confiance_logo-item');
+
+      // partnerLogosContainer.forEach((logo) => {
+      //   let logoInside = logo.querySelector('.confiance_logo');
+
+      //   let tlPartnerLogo = gsap.timeline({
+      //     paused: true,
+      //   });
+
+      //   tlPartnerLogo.from(logoInside, { opacity: 1, duration: 0.5, ease: 'power2.out' });
+
+      //   logo.addEventListener('mouseenter', () => {
+      //     tlPartnerLogo.restart();
+      //   });
+
+      //   logo.addEventListener('mouseleave', () => {
+      //     tlPartnerLogo.reverse();
+      //   });
+      // });
     }
+  });
+
+  $('.partner-logo_component').each(function () {
+    let reeller = new Reeller({
+      container: '.partner-logo_reel',
+      wrapper: '.partner-logo_reel_wrap',
+      itemSelector: '.partner-logo_reel_item',
+      speed: 20,
+    });
+
+    reeller.reverse(true);
+  });
+
+  $(document).ready(function () {
+    $('.intention_component').each(function () {
+      const trigger = $(this);
+
+      // CERCLE 1
+      const circle1 = $('.intention_circle.is-1');
+      const path1 = '#motionPath1';
+
+      if (circle1.length) {
+        gsap.set(circle1, { opacity: 0 });
+
+        gsap
+          .timeline({
+            scrollTrigger: {
+              trigger: trigger,
+              start: 'top 70%',
+              end: 'bottom center',
+              scrub: 1.5,
+              markers: false,
+            },
+          })
+          .to(circle1, {
+            opacity: 1,
+            duration: 0.3,
+            ease: 'power1.out',
+            motionPath: {
+              path: path1,
+              align: path1,
+              autoRotate: false,
+              alignOrigin: [0.5, 0.5],
+              start: 1,
+              end: 1,
+            },
+          })
+          .to(circle1, {
+            duration: 1,
+            ease: 'none',
+            motionPath: {
+              path: path1,
+              align: path1,
+              autoRotate: false,
+              alignOrigin: [0.5, 0.5],
+              start: 1,
+              end: 0,
+            },
+          });
+      }
+
+      // CERCLE 2
+      const circle2 = $('.intention_circle.is-2');
+      const path2 = '#motionPath2';
+
+      if (circle2.length) {
+        gsap.set(circle2, { opacity: 0 });
+
+        gsap
+          .timeline({
+            scrollTrigger: {
+              trigger: trigger,
+              start: '25% 70%',
+              end: 'bottom center',
+              scrub: 1.5,
+              markers: false,
+            },
+          })
+          .to(circle2, {
+            opacity: 1,
+            duration: 0.3,
+            ease: 'power1.out',
+            motionPath: {
+              path: path2,
+              align: path2,
+              autoRotate: false,
+              alignOrigin: [0.5, 0.5],
+              start: 1,
+              end: 1,
+            },
+          })
+          .to(circle2, {
+            duration: 1,
+            ease: 'none',
+            motionPath: {
+              path: path2,
+              align: path2,
+              autoRotate: false,
+              alignOrigin: [0.5, 0.5],
+              start: 1,
+              end: 0,
+            },
+          });
+      }
+    });
   });
 });
