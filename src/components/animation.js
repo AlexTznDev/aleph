@@ -1413,13 +1413,15 @@ window.Webflow.push(() => {
         const wrapRect = wrap.getBoundingClientRect();
         const targetRect = target.getBoundingClientRect();
 
-        // --- Axe X (inchangé) ---
-        const finalX = wrapRect.width * 0.8 - targetRect.left;
+        // --- Axe X : translation depuis left:100px (base CSS) vers 80% du parent ---
+        const startX = 100; // valeur de ton CSS
+        const endX = wrapRect.width * 0.8;
+        const finalX = endX - startX; // translation horizontale à appliquer
 
-        // --- Axe Y : translation à partir du top:20% CSS vers 80% du parent ---
-        const startY = wrapRect.height * 0.2; // 20% du parent (base CSS)
-        const endY = wrapRect.height * 0.8; // 80% du parent (cible finale)
-        const finalY = endY - startY; // translation nécessaire (60% du parent)
+        // --- Axe Y : translation depuis top:20% (base CSS) vers 80% du parent ---
+        const startY = wrapRect.height * 0.2;
+        const endY = wrapRect.height * 0.8;
+        const finalY = endY - startY; // translation verticale à appliquer
 
         return { x: finalX, y: finalY };
       }
