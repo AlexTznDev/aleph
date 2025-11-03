@@ -1412,7 +1412,7 @@ window.Webflow.push(() => {
           start: 'top 500px',
           end: 'bottom 500px',
           scrub: true,
-          markers: false,
+          markers: true,
         },
       });
 
