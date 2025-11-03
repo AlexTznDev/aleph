@@ -1409,7 +1409,7 @@ window.Webflow.push(() => {
       let tlTextReveal = gsap.timeline({
         scrollTrigger: {
           trigger: sectionRevealText,
-          start: 'top 500px',
+          start: 'top 700px',
           end: 'bottom 500px',
           scrub: true,
           markers: true,
@@ -1428,16 +1428,16 @@ window.Webflow.push(() => {
           duration: 1,
           ease: 'power2.out',
         })
-        .to(
-          '.text-reveal_title',
-          {
-            '--bg-y': '80%',
-            '--bg-x': '80%',
-            duration: 1.2,
-            ease: 'power2.out',
-          },
-          '<'
-        )
+        // .to(
+        //   '.text-reveal_title',
+        //   {
+        //     '--bg-y': '80%',
+        //     '--bg-x': '80%',
+        //     duration: 1.2,
+        //     ease: 'power2.out',
+        //   },
+        //   '<'
+        // )
         .to(
           textRevealParagraphe,
           {
