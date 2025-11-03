@@ -1406,6 +1406,24 @@ window.Webflow.push(() => {
       let textRevealTitle2 = document.querySelector('.text-reveal_title2');
       let textRevealParagraphe = document.querySelector('.text-reveal_paragraphe-wrap');
 
+      function getRelativeOffset() {
+        const wrap = document.querySelector('.text-reveal_title-wrap');
+        const target = document.querySelector('.text-reveal_circle-target-flip');
+
+        const wrapRect = wrap.getBoundingClientRect();
+        const targetRect = target.getBoundingClientRect();
+
+        // --- Axe X (inchangé) ---
+        const finalX = wrapRect.width * 0.8 - targetRect.left;
+
+        // --- Axe Y : translation à partir du top:20% CSS vers 80% du parent ---
+        const startY = wrapRect.height * 0.2; // 20% du parent (base CSS)
+        const endY = wrapRect.height * 0.8; // 80% du parent (cible finale)
+        const finalY = endY - startY; // translation nécessaire (60% du parent)
+
+        return { x: finalX, y: finalY };
+      }
+
       let tlTextReveal = gsap.timeline({
         scrollTrigger: {
           trigger: sectionRevealText,
@@ -1423,21 +1441,21 @@ window.Webflow.push(() => {
           ease: 'power2.out',
         })
         .to(circleTarget, {
-          left: '80%',
-          top: '80%',
+          x: () => getRelativeOffset().x,
+          y: () => getRelativeOffset().y,
           duration: 1,
           ease: 'power2.out',
         })
-        // .to(
-        //   '.text-reveal_title',
-        //   {
-        //     '--bg-y': '80%',
-        //     '--bg-x': '80%',
-        //     duration: 1.2,
-        //     ease: 'power2.out',
-        //   },
-        //   '<'
-        // )
+        .to(
+          '.text-reveal_title',
+          {
+            '--bg-y': '80%',
+            '--bg-x': '80%',
+            duration: 1.2,
+            ease: 'power2.out',
+          },
+          '<'
+        )
         .to(
           textRevealParagraphe,
           {
