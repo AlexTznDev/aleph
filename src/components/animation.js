@@ -1163,6 +1163,16 @@ window.Webflow.push(() => {
       let heroHomeCircleDark = document.querySelector('[hero-element="circle-dark"]');
       let heroHomeCircleContainer = document.querySelector('[hero-element="circle-contain"]');
       const circleTarget = document.querySelector('.text-reveal_circle-target-flip');
+      const sectionRevealText = document.querySelector('.section_reveal-text');
+
+      // // --- Détection simple du navigateur ---
+      // const isSafari = /^((?!chrome|android).)*safari/i.test(navigator.userAgent);
+
+      // // --- Applique le style uniquement sur Chrome/Edge ---
+      // if (heroHomeCircleDark && !isSafari) {
+      //   heroHomeCircleDark.style.backdropFilter = 'blur(3px)';
+      //   heroHomeCircleDark.style.webkitBackdropFilter = 'blur(3px)'; // pour compatibilité complète
+      // }
 
       // --- TL Hero au chargement ---
       let tlHomeHeroStart = gsap.timeline({
@@ -1341,20 +1351,35 @@ window.Webflow.push(() => {
       let tlMoveCircle = gsap.timeline({
         scrollTrigger: {
           trigger: sectionHeroHome,
-          start: '800px 500px',
-          end: '1700px 500px',
+          start: '850px 500px',
+          end: '1600px 500px',
           scrub: true,
-          markers: false,
+          markers: true,
           invalidateOnRefresh: true, // pour recalculer dynamiquement
         },
       });
 
-      tlMoveCircle.to([heroHomeCircleDark, heroHomeCircleWhite], {
-        x: () => getTargetPosition().x,
-        y: () => getTargetPosition().y,
-        ease: 'none',
-        duration: 1,
-      });
+      tlMoveCircle
+        .to([heroHomeCircleDark, heroHomeCircleWhite], {
+          x: () => getTargetPosition().x,
+          y: () => getTargetPosition().y,
+          ease: 'none',
+          duration: 1,
+        })
+        .to(circleTarget, {
+          opacity: 1,
+          duration: 0.5,
+          ease: 'power2.out',
+        })
+        .to(
+          heroHomeCircleDark,
+          {
+            opacity: 0,
+            duration: 0.5,
+            ease: 'power2.out',
+          },
+          '<'
+        );
 
       // ScrollTrigger.create({
       //   trigger: sectionHeroHome,
@@ -1375,6 +1400,53 @@ window.Webflow.push(() => {
       //   heroHomeCircleContainer.appendChild(heroHomeCircleDark);
       //   Flip.from(state, { duration: 1, ease: 'power2.inOut', absolute: true, scale: true });
       // }
+
+      // --- Animation du texte reveal ---
+
+      let textRevealTitle2 = document.querySelector('.text-reveal_title2');
+      let textRevealParagraphe = document.querySelector('.text-reveal_paragraphe-wrap');
+
+      let tlTextReveal = gsap.timeline({
+        scrollTrigger: {
+          trigger: sectionRevealText,
+          start: 'top 500px',
+          end: 'bottom 500px',
+          scrub: true,
+          markers: false,
+        },
+      });
+
+      tlTextReveal
+        .to(textRevealTitle2, {
+          opacity: 0,
+          duration: 1,
+          ease: 'power2.out',
+        })
+        .to(circleTarget, {
+          left: '80%',
+          top: '80%',
+          duration: 1,
+          ease: 'power2.out',
+        })
+        .to(
+          '.text-reveal_title',
+          {
+            '--bg-y': '80%',
+            '--bg-x': '80%',
+            duration: 1.2,
+            ease: 'power2.out',
+          },
+          '<'
+        )
+        .to(
+          textRevealParagraphe,
+          {
+            opacity: 1,
+            duration: 1,
+            ease: 'power2.out',
+          },
+          '<'
+        );
     });
   });
 });
