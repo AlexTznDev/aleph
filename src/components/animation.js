@@ -1298,15 +1298,15 @@ window.Webflow.push(() => {
           },
           '<'
         )
-        // .to(
-        //   'body',
-        //   {
-        //     backgroundColor: '#181617',
-        //     duration: 1,
-        //     ease: 'power2.out',
-        //   },
-        //   '<'
-        // )
+        .to(
+          '.bg-layer',
+          {
+            backgroundColor: '#181617',
+            duration: 1,
+            ease: 'power2.out',
+          },
+          '<'
+        )
         .to(
           '.nav_component',
           {
