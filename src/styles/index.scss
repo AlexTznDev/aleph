@@ -86,6 +86,28 @@
 
 
 
+  // ANIMATION HOME PAGE
+
+  [hero-element="title"], [hero-element="paragraphe"], [hero-element="rosace"] {
+    opacity: 0;
+    transform: translateY(1.5rem);
+  }
+
+  [hero-element="circle-white"]{
+
+    will-change: opacity, transform;
+    transform: translateZ(0);
+    transform: translateY(15rem);
+
+    backface-visibility: hidden;
+
+  }
+
+
+
+
+
+
 }
 
 
