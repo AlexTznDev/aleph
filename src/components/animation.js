@@ -1148,231 +1148,233 @@ window.Webflow.push(() => {
     });
   });
 
-  // ANIMATION HOME PAGE
+  $('.section_hero-home').each(function () {
+    // ANIMATION HOME PAGE
 
-  let mm = gsap.matchMedia();
+    let mm = gsap.matchMedia();
 
-  mm.add('(min-width: 992px)', () => {
-    let titleHeroHome = document.querySelector('[hero-element="title"]');
-    let paragrapheHeroHome = document.querySelector('[hero-element="paragraphe"]');
-    let rosaceHeroHome = document.querySelector('[hero-element="rosace"]');
-    let heroHomeCircleWhite = document.querySelector('[hero-element="circle-white"]');
-    let heroRosaceSvg = document.querySelector('[hero-element="rosace-svg"]');
-    let sectionHeroHome = document.querySelector('.section_hero-home');
-    let heroHomeCircleDark = document.querySelector('[hero-element="circle-dark"]');
-    let heroHomeCircleContainer = document.querySelector('[hero-element="circle-contain"]');
-    const circleTarget = document.querySelector('.text-reveal_circle-target-flip');
+    mm.add('(min-width: 992px)', () => {
+      let titleHeroHome = document.querySelector('[hero-element="title"]');
+      let paragrapheHeroHome = document.querySelector('[hero-element="paragraphe"]');
+      let rosaceHeroHome = document.querySelector('[hero-element="rosace"]');
+      let heroHomeCircleWhite = document.querySelector('[hero-element="circle-white"]');
+      let heroRosaceSvg = document.querySelector('[hero-element="rosace-svg"]');
+      let sectionHeroHome = document.querySelector('.section_hero-home');
+      let heroHomeCircleDark = document.querySelector('[hero-element="circle-dark"]');
+      let heroHomeCircleContainer = document.querySelector('[hero-element="circle-contain"]');
+      const circleTarget = document.querySelector('.text-reveal_circle-target-flip');
 
-    // --- TL Hero au chargement ---
-    let tlHomeHeroStart = gsap.timeline({
-      onStart: () => {
-        if (lenis) lenis.stop(); // ⛔ bloque le scroll pendant l’intro
-      },
-      onComplete: () => {
-        if (lenis) lenis.start(); // ✅ relance Lenis quand tout est terminé
-      },
-    });
-    tlHomeHeroStart
-      .to(titleHeroHome, {
-        opacity: 1,
-        transform: 'translateY(0)',
+      // --- TL Hero au chargement ---
+      let tlHomeHeroStart = gsap.timeline({
+        onStart: () => {
+          if (lenis) lenis.stop(); // ⛔ bloque le scroll pendant l’intro
+        },
+        onComplete: () => {
+          if (lenis) lenis.start(); // ✅ relance Lenis quand tout est terminé
+        },
+      });
+      tlHomeHeroStart
+        .to(titleHeroHome, {
+          opacity: 1,
+          transform: 'translateY(0)',
+          duration: 1,
+          delay: 1,
+          ease: 'power2.out',
+        })
+        .to(
+          paragrapheHeroHome,
+          {
+            opacity: 1,
+            transform: 'translateY(0)',
+            duration: 1,
+            delay: 0.1,
+            ease: 'power2.out',
+          },
+          '<'
+        )
+        .to(
+          rosaceHeroHome,
+          {
+            opacity: 1,
+            transform: 'translateY(0)',
+            duration: 1,
+            delay: 0.1,
+            ease: 'power2.out',
+          },
+          '<'
+        )
+        .to(
+          heroRosaceSvg,
+          {
+            rotate: 90,
+            duration: 1,
+            ease: 'power2.out',
+          },
+          '<'
+        )
+        .to(
+          heroHomeCircleWhite,
+          {
+            transform: 'translateY(0)',
+            opacity: 1,
+            duration: 1,
+            ease: 'power2.out',
+          },
+          '-=1.3'
+        );
+      // .to(
+      //   heroHomeCircleWhite,
+      //   {
+      //     rotate: '40deg',
+      //     duration: 440,
+      //     ease: 'power2.out',
+      //   },
+      //   '<'
+      // );
+
+      let tlFirstScrollAnimation = gsap.timeline({
+        scrollTrigger: {
+          trigger: sectionHeroHome,
+          start: 'top top',
+          end: '1000px 500px',
+          scrub: true,
+          markers: false,
+        },
+      });
+
+      tlFirstScrollAnimation
+        .to(heroHomeCircleContainer, {
+          width: '64px',
+          // transform: 'translateY(10rem)',
+          duration: 1,
+          ease: 'power2.out',
+        })
+        .to(
+          heroHomeCircleWhite,
+          {
+            opacity: 0,
+            duration: 1,
+            ease: 'power2.out',
+          },
+          '<'
+        )
+        .to(
+          heroHomeCircleDark,
+          {
+            opacity: 1,
+
+            duration: 1,
+            ease: 'power2.out',
+          },
+          '<'
+        )
+        .to(
+          titleHeroHome,
+          {
+            opacity: 0,
+            transform: 'translateY(35rem)',
+            duration: 1,
+            ease: 'power2.out',
+          },
+          '<'
+        )
+        .to(
+          paragrapheHeroHome,
+          {
+            opacity: 0,
+            transform: 'translateY(35rem)',
+            duration: 1,
+            ease: 'power2.out',
+          },
+          '<'
+        )
+        .to(
+          rosaceHeroHome,
+          {
+            opacity: 0,
+            transform: 'translateY(35rem)',
+            duration: 1,
+            ease: 'power2.out',
+          },
+          '<'
+        )
+        .to(
+          'body',
+          {
+            backgroundColor: '#181617',
+            duration: 1,
+            ease: 'power2.out',
+          },
+          '<'
+        )
+        .to(
+          '.nav_component',
+          {
+            color: 'var(--base-color--white-radiance)',
+            duration: 1,
+            ease: 'power2.out',
+          },
+          '<'
+        );
+
+      function getTargetPosition() {
+        const circleRect = heroHomeCircleDark.getBoundingClientRect();
+        const targetRect = circleTarget.getBoundingClientRect();
+
+        // --- Calcul du centre horizontal (axe X) ---
+        const circleCenterX = circleRect.left + circleRect.width / 2;
+        const targetCenterX = targetRect.left + targetRect.width / 2;
+
+        // --- Globalisation (scroll inclus) ---
+        const globalCircleX = circleCenterX + window.scrollX;
+        const globalTargetX = targetCenterX + window.scrollX;
+
+        const globalCircleY = circleRect.top + window.scrollY;
+        const globalTargetY = targetRect.top + window.scrollY;
+
+        return {
+          x: globalTargetX - globalCircleX,
+          y: globalTargetY - globalCircleY,
+        };
+      }
+
+      let tlMoveCircle = gsap.timeline({
+        scrollTrigger: {
+          trigger: sectionHeroHome,
+          start: '800px 500px',
+          end: '1700px 500px',
+          scrub: true,
+          markers: false,
+          invalidateOnRefresh: true, // pour recalculer dynamiquement
+        },
+      });
+
+      tlMoveCircle.to([heroHomeCircleDark, heroHomeCircleWhite], {
+        x: () => getTargetPosition().x,
+        y: () => getTargetPosition().y,
+        ease: 'none',
         duration: 1,
-        delay: 1,
-        ease: 'power2.out',
-      })
-      .to(
-        paragrapheHeroHome,
-        {
-          opacity: 1,
-          transform: 'translateY(0)',
-          duration: 1,
-          delay: 0.1,
-          ease: 'power2.out',
-        },
-        '<'
-      )
-      .to(
-        rosaceHeroHome,
-        {
-          opacity: 1,
-          transform: 'translateY(0)',
-          duration: 1,
-          delay: 0.1,
-          ease: 'power2.out',
-        },
-        '<'
-      )
-      .to(
-        heroRosaceSvg,
-        {
-          rotate: 90,
-          duration: 1,
-          ease: 'power2.out',
-        },
-        '<'
-      )
-      .to(
-        heroHomeCircleWhite,
-        {
-          transform: 'translateY(0)',
-          opacity: 1,
-          duration: 1,
-          ease: 'power2.out',
-        },
-        '-=1.3'
-      );
-    // .to(
-    //   heroHomeCircleWhite,
-    //   {
-    //     rotate: '40deg',
-    //     duration: 440,
-    //     ease: 'power2.out',
-    //   },
-    //   '<'
-    // );
+      });
 
-    let tlFirstScrollAnimation = gsap.timeline({
-      scrollTrigger: {
-        trigger: sectionHeroHome,
-        start: 'top top',
-        end: '1000px 500px',
-        scrub: true,
-        markers: false,
-      },
+      // ScrollTrigger.create({
+      //   trigger: sectionHeroHome,
+      //   start: '1000px 500px',
+      //   markers: true,
+      //   onEnter: () => flipToTarget(),
+      //   onLeaveBack: () => flipBack(),
+      // });
+
+      // function flipToTarget() {
+      //   const state = Flip.getState(heroHomeCircleDark);
+      //   circleTarget.appendChild(heroHomeCircleDark);
+      //   Flip.from(state, { duration: 1, ease: 'power2.inOut', absolute: true, scale: true });
+      // }
+
+      // function flipBack() {
+      //   const state = Flip.getState(heroHomeCircleDark);
+      //   heroHomeCircleContainer.appendChild(heroHomeCircleDark);
+      //   Flip.from(state, { duration: 1, ease: 'power2.inOut', absolute: true, scale: true });
+      // }
     });
-
-    tlFirstScrollAnimation
-      .to(heroHomeCircleContainer, {
-        width: '64px',
-        // transform: 'translateY(10rem)',
-        duration: 1,
-        ease: 'power2.out',
-      })
-      .to(
-        heroHomeCircleWhite,
-        {
-          opacity: 0,
-          duration: 1,
-          ease: 'power2.out',
-        },
-        '<'
-      )
-      .to(
-        heroHomeCircleDark,
-        {
-          opacity: 1,
-
-          duration: 1,
-          ease: 'power2.out',
-        },
-        '<'
-      )
-      .to(
-        titleHeroHome,
-        {
-          opacity: 0,
-          transform: 'translateY(35rem)',
-          duration: 1,
-          ease: 'power2.out',
-        },
-        '<'
-      )
-      .to(
-        paragrapheHeroHome,
-        {
-          opacity: 0,
-          transform: 'translateY(35rem)',
-          duration: 1,
-          ease: 'power2.out',
-        },
-        '<'
-      )
-      .to(
-        rosaceHeroHome,
-        {
-          opacity: 0,
-          transform: 'translateY(35rem)',
-          duration: 1,
-          ease: 'power2.out',
-        },
-        '<'
-      )
-      .to(
-        'body',
-        {
-          backgroundColor: '#181617',
-          duration: 1,
-          ease: 'power2.out',
-        },
-        '<'
-      )
-      .to(
-        '.nav_component',
-        {
-          color: 'var(--base-color--white-radiance)',
-          duration: 1,
-          ease: 'power2.out',
-        },
-        '<'
-      );
-
-    function getTargetPosition() {
-      const circleRect = heroHomeCircleDark.getBoundingClientRect();
-      const targetRect = circleTarget.getBoundingClientRect();
-
-      // --- Calcul du centre horizontal (axe X) ---
-      const circleCenterX = circleRect.left + circleRect.width / 2;
-      const targetCenterX = targetRect.left + targetRect.width / 2;
-
-      // --- Globalisation (scroll inclus) ---
-      const globalCircleX = circleCenterX + window.scrollX;
-      const globalTargetX = targetCenterX + window.scrollX;
-
-      const globalCircleY = circleRect.top + window.scrollY;
-      const globalTargetY = targetRect.top + window.scrollY;
-
-      return {
-        x: globalTargetX - globalCircleX,
-        y: globalTargetY - globalCircleY,
-      };
-    }
-
-    let tlMoveCircle = gsap.timeline({
-      scrollTrigger: {
-        trigger: sectionHeroHome,
-        start: '800px 500px',
-        end: '1700px 500px',
-        scrub: true,
-        markers: false,
-        invalidateOnRefresh: true, // pour recalculer dynamiquement
-      },
-    });
-
-    tlMoveCircle.to([heroHomeCircleDark, heroHomeCircleWhite], {
-      x: () => getTargetPosition().x,
-      y: () => getTargetPosition().y,
-      ease: 'none',
-      duration: 1,
-    });
-
-    // ScrollTrigger.create({
-    //   trigger: sectionHeroHome,
-    //   start: '1000px 500px',
-    //   markers: true,
-    //   onEnter: () => flipToTarget(),
-    //   onLeaveBack: () => flipBack(),
-    // });
-
-    // function flipToTarget() {
-    //   const state = Flip.getState(heroHomeCircleDark);
-    //   circleTarget.appendChild(heroHomeCircleDark);
-    //   Flip.from(state, { duration: 1, ease: 'power2.inOut', absolute: true, scale: true });
-    // }
-
-    // function flipBack() {
-    //   const state = Flip.getState(heroHomeCircleDark);
-    //   heroHomeCircleContainer.appendChild(heroHomeCircleDark);
-    //   Flip.from(state, { duration: 1, ease: 'power2.inOut', absolute: true, scale: true });
-    // }
   });
 });
