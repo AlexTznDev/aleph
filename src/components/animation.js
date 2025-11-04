@@ -1259,7 +1259,7 @@ window.Webflow.push(() => {
         scrollTrigger: {
           trigger: sectionHeroHome,
           start: 'top top',
-          end: '1000px 500px',
+          end: '800px 500px',
           scrub: true,
           markers: false,
         },
@@ -1364,8 +1364,8 @@ window.Webflow.push(() => {
       let tlMoveCircle = gsap.timeline({
         scrollTrigger: {
           trigger: sectionHeroHome,
-          start: '850px 500px',
-          end: '1600px 500px',
+          start: '700px 500px',
+          end: '1300px 500px',
           scrub: true,
           markers: false,
           invalidateOnRefresh: true, // pour recalculer dynamiquement
@@ -1438,7 +1438,8 @@ window.Webflow.push(() => {
         .to(circleTarget, {
           x: () => getRelativeOffset().x,
           y: () => getRelativeOffset().y,
-          duration: 1,
+          duration: 2,
+          delay: 1.5,
           ease: 'power2.out',
         })
         .to(
@@ -1460,11 +1461,15 @@ window.Webflow.push(() => {
           },
           '<'
         )
-        .to(tabsTargetBefore, {
-          opacity: 1,
-          duration: 0.5,
-          ease: 'power2.out',
-        })
+        .to(
+          tabsTargetBefore,
+          {
+            opacity: 1,
+            duration: 0.5,
+            ease: 'power2.out',
+          },
+          '-=.3'
+        )
         .to(
           circleTarget,
           {
@@ -1498,7 +1503,7 @@ window.Webflow.push(() => {
       let tlTabs = gsap.timeline({
         scrollTrigger: {
           trigger: sectionHomeTabs,
-          start: '-50px 500px',
+          start: '0px 500px',
           end: '80% 800px',
           scrub: true,
           markers: false,
