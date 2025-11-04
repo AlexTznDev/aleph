@@ -1421,7 +1421,7 @@ window.Webflow.push(() => {
           start: 'top 700px',
           end: '90% 500px',
           scrub: true,
-          markers: true,
+          markers: false,
         },
       });
 
@@ -1498,7 +1498,7 @@ window.Webflow.push(() => {
           start: '-50px 500px',
           end: '80% 800px',
           scrub: true,
-          markers: true,
+          markers: false,
           invalidateOnRefresh: true, // recalcule les positions si resize
         },
       });
@@ -1555,6 +1555,32 @@ window.Webflow.push(() => {
           },
           '<'
         );
+
+      // Sélecteurs
+      const $tabsContainer = document.querySelector('.home-tabs_container');
+      const $tabItems = gsap.utils.toArray('.home-tabs_item-wrap');
+
+      // Timeline principale
+      const tlTabsReveal = gsap.timeline({
+        scrollTrigger: {
+          trigger: $tabsContainer,
+          start: 'center center',
+          end: '80% 50%',
+          scrub: true,
+          markers: false,
+        },
+      });
+
+      tlTabsReveal.to(
+        $tabItems,
+
+        {
+          opacity: 1,
+          y: 0,
+          ease: 'none',
+          stagger: 0.25,
+        }
+      );
     });
   });
 });
