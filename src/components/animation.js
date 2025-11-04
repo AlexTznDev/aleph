@@ -1652,17 +1652,24 @@ window.Webflow.push(() => {
             ease: 'power2.out',
           },
           '-=1'
-        )
-        .to(
-          '.home-slider_container',
-          {
-            opacity: 1,
-            transform: 'translateX(0)',
-            duration: 2,
-            ease: 'power2.out',
-          },
-          '-=1'
         );
+
+      tlSliderFounders = gsap.timeline({
+        scrollTrigger: {
+          trigger: '.section_home-slider',
+          start: '60% center',
+          end: 'bottom 50%',
+          scrub: true,
+          markers: false,
+        },
+      });
+
+      tlSliderFounders.to('.home-slider_container', {
+        opacity: 1,
+        transform: 'translateX(0)',
+        duration: 1,
+        ease: 'power2.out',
+      });
     });
   });
 });
