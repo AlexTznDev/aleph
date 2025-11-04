@@ -1164,6 +1164,15 @@ window.Webflow.push(() => {
       let heroHomeCircleContainer = document.querySelector('[hero-element="circle-contain"]');
       const circleTarget = document.querySelector('.text-reveal_circle-target-flip');
       const sectionRevealText = document.querySelector('.section_reveal-text');
+      let tabsTargetBefore = document.querySelector('[home-tabs="target-before"]');
+      let tabsTargetAfter = document.querySelector('[home-tabs="target-after"]');
+      let tabsCircleBefore = document.querySelector('[home-tabs="circle-before"]');
+      let tabsCircleAfter = document.querySelector('[home-tabs="circle-after"]');
+      let sectionHomeTabs = document.querySelector('.section_home-tabs');
+      let homeTabsCircleTitleWrap = document.querySelector('.home-tabs_circle-title-wrap');
+      let homeTabsCircleParagrapheWrap = document.querySelector(
+        '.home-tabs_circle-paragraphe-wrap'
+      );
 
       // // --- Détection simple du navigateur ---
       // const isSafari = /^((?!chrome|android).)*safari/i.test(navigator.userAgent);
@@ -1354,7 +1363,7 @@ window.Webflow.push(() => {
           start: '850px 500px',
           end: '1600px 500px',
           scrub: true,
-          markers: true,
+          markers: false,
           invalidateOnRefresh: true, // pour recalculer dynamiquement
         },
       });
@@ -1380,26 +1389,6 @@ window.Webflow.push(() => {
           },
           '<'
         );
-
-      // ScrollTrigger.create({
-      //   trigger: sectionHeroHome,
-      //   start: '1000px 500px',
-      //   markers: true,
-      //   onEnter: () => flipToTarget(),
-      //   onLeaveBack: () => flipBack(),
-      // });
-
-      // function flipToTarget() {
-      //   const state = Flip.getState(heroHomeCircleDark);
-      //   circleTarget.appendChild(heroHomeCircleDark);
-      //   Flip.from(state, { duration: 1, ease: 'power2.inOut', absolute: true, scale: true });
-      // }
-
-      // function flipBack() {
-      //   const state = Flip.getState(heroHomeCircleDark);
-      //   heroHomeCircleContainer.appendChild(heroHomeCircleDark);
-      //   Flip.from(state, { duration: 1, ease: 'power2.inOut', absolute: true, scale: true });
-      // }
 
       // --- Animation du texte reveal ---
 
@@ -1430,7 +1419,7 @@ window.Webflow.push(() => {
         scrollTrigger: {
           trigger: sectionRevealText,
           start: 'top 700px',
-          end: 'bottom 500px',
+          end: '90% 500px',
           scrub: true,
           markers: true,
         },
@@ -1463,6 +1452,105 @@ window.Webflow.push(() => {
           {
             opacity: 1,
             duration: 1,
+            ease: 'power2.out',
+          },
+          '<'
+        )
+        .to(tabsTargetBefore, {
+          opacity: 1,
+          duration: 0.5,
+          ease: 'power2.out',
+        })
+        .to(
+          circleTarget,
+          {
+            opacity: 0,
+            duration: 0.5,
+            ease: 'power2.out',
+          },
+          '<'
+        );
+
+      // ----------- Animation tabs ----------------
+
+      // On va cibler la position du "after" pour que le "before" s’y déplace proprement
+      function getTabsOffset() {
+        const wrapBefore = document.querySelector('[home-tabs="target-before"]');
+        const wrapAfter = document.querySelector('[home-tabs="target-after"]');
+
+        const beforeRect = wrapBefore.getBoundingClientRect();
+        const afterRect = wrapAfter.getBoundingClientRect();
+
+        // --- Axe X : translation relative (coin gauche) ---
+        const finalX = afterRect.left - beforeRect.left;
+
+        // --- Axe Y : translation relative (coin haut) ---
+        const finalY = afterRect.top - beforeRect.top;
+
+        return { x: finalX, y: finalY };
+      }
+
+      let circleSizeTarget = tabsTargetAfter.getBoundingClientRect();
+
+      let tlTabs = gsap.timeline({
+        scrollTrigger: {
+          trigger: sectionHomeTabs,
+          start: '-50px 500px',
+          end: '80% 800px',
+          scrub: true,
+          markers: true,
+          invalidateOnRefresh: true, // recalcule les positions si resize
+        },
+      });
+
+      // Animation fluide : déplacement + resize
+      tlTabs
+        .to(tabsCircleBefore, {
+          width: circleSizeTarget.width,
+          height: circleSizeTarget.height,
+          duration: 1,
+          ease: 'power2.out',
+        })
+        .to(
+          tabsCircleBefore,
+          {
+            x: () => getTabsOffset().x,
+            y: () => getTabsOffset().y,
+            duration: 1,
+            ease: 'power2.out',
+          },
+          '<'
+        )
+        .to(tabsTargetAfter, {
+          opacity: 1,
+          duration: 1,
+          ease: 'power2.out',
+        })
+        .to(
+          tabsCircleBefore,
+          {
+            opacity: 0,
+            duration: 1,
+            ease: 'power2.out',
+          },
+          '<'
+        )
+        .to(
+          homeTabsCircleTitleWrap,
+          {
+            opacity: 1,
+            y: 0,
+            duration: 0.7,
+            ease: 'power2.out',
+          },
+          '-=.4'
+        )
+        .to(
+          homeTabsCircleParagrapheWrap,
+          {
+            opacity: 1,
+            x: 0,
+            duration: 0.7,
             ease: 'power2.out',
           },
           '<'

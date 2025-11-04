@@ -112,6 +112,16 @@
     -webkit-backface-visibility: hidden;
     will-change: transform, opacity;
   }
+
+  [home-tabs="circle-before"],
+  [home-tabs="circle-after"]{
+  transform: translateZ(0);
+  -webkit-transform: translateZ(0);
+  backface-visibility: hidden;
+  -webkit-backface-visibility: hidden;
+  will-change: transform, opacity;
+}
+
   
 
   .text-reveal_circle-target-flip{
@@ -122,6 +132,15 @@
 
   }
 
+  .home-tabs_circle-title-wrap{
+    opacity: 0;
+    transform: translateY(1rem);
+  }
+
+  .home-tabs_circle-paragraphe-wrap{
+    opacity: 0;
+    transform: translateX(1.5rem);
+  }
 
 
 }
