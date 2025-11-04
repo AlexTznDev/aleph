@@ -183,7 +183,13 @@
   }
 
 
+.swiper-slide.is-founders .image-full-cover{
+  transition: all 0.8s ease-out;
+}
 
+.swiper-slide.is-founders:hover .image-full-cover{
+  transform: scale(1.03);
+}
 
 
 }
