@@ -1568,9 +1568,9 @@ window.Webflow.push(() => {
         scrollTrigger: {
           trigger: $tabsContainer,
           start: 'center center',
-          end: '80% 50%',
+          end: 'bottom 50%',
           scrub: true,
-          markers: false,
+          markers: true,
         },
       });
 
