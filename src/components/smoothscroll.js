@@ -4,8 +4,9 @@ import ScrollTrigger from 'gsap/ScrollTrigger';
 gsap.registerPlugin(ScrollTrigger);
 
 export const lenis = new Lenis({
-  duration: 1.2,
-  smoothWheel: true,
+  lerp: 0.07, // plus petit = plus de résistance
+  smoothWheel: true, // active le scroll fluide
+  wheelMultiplier: 0.75, // < 1 = molette moins sensible
 });
 
 // --- SYNC LENIS / GSAP ---
