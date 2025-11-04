@@ -1426,6 +1426,7 @@ window.Webflow.push(() => {
           end: '90% 500px',
           scrub: true,
           markers: false,
+          invalidateOnRefresh: true,
         },
       });
 
