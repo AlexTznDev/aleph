@@ -1567,10 +1567,10 @@ window.Webflow.push(() => {
       const tlTabsReveal = gsap.timeline({
         scrollTrigger: {
           trigger: $tabsContainer,
-          start: 'center center',
+          start: '20% center',
           end: 'bottom 50%',
           scrub: true,
-          markers: true,
+          markers: false,
         },
       });
 
@@ -1606,7 +1606,7 @@ window.Webflow.push(() => {
         scrollTrigger: {
           trigger: '.section_home-slider',
           start: '-500px 500px',
-          end: '90% 50%',
+          end: 'bottom 50%',
           scrub: true,
           markers: false,
           invalidateOnRefresh: true,
