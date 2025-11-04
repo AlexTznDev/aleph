@@ -1173,6 +1173,10 @@ window.Webflow.push(() => {
       let homeTabsCircleParagrapheWrap = document.querySelector(
         '.home-tabs_circle-paragraphe-wrap'
       );
+      let sliderHomeTitleWrap = document.querySelector('.home-slider_title-wrap');
+      let homeSliderTargetAfter = document.querySelector('[home-slider="target-after"]');
+      let homeSliderRayon = document.querySelector('[home-slider="rayon"]');
+      let tabsCircleGradient = document.querySelector('.home-tabs_gradient');
 
       // // --- Détection simple du navigateur ---
       // const isSafari = /^((?!chrome|android).)*safari/i.test(navigator.userAgent);
@@ -1473,7 +1477,6 @@ window.Webflow.push(() => {
 
       // ----------- Animation tabs ----------------
 
-      // On va cibler la position du "after" pour que le "before" s’y déplace proprement
       function getTabsOffset() {
         const wrapBefore = document.querySelector('[home-tabs="target-before"]');
         const wrapAfter = document.querySelector('[home-tabs="target-after"]');
@@ -1581,6 +1584,65 @@ window.Webflow.push(() => {
           stagger: 0.25,
         }
       );
+
+      // ----------- Animation home-slider ----------------
+
+      function getRayonOffset() {
+        const afterRect = homeSliderTargetAfter.getBoundingClientRect();
+        const beforeRect = tabsCircleAfter.getBoundingClientRect();
+
+        // --- Axe X : alignement horizontal absolu ---
+        const viewportCenterX = window.innerWidth / 2;
+        const finalX = viewportCenterX - beforeRect.left;
+
+        // --- Axe Y : translation relative (haut) ---
+        const finalY = afterRect.top - beforeRect.top;
+
+        return { x: finalX, y: finalY };
+      }
+
+      let tlHomeSlider = gsap.timeline({
+        scrollTrigger: {
+          trigger: '.section_home-slider',
+          start: '-500px 500px',
+          end: '80% 50%',
+          scrub: true,
+          markers: true,
+          invalidateOnRefresh: true,
+        },
+      });
+
+      tlHomeSlider
+        .to(tabsCircleGradient, {
+          opacity: 0,
+          duration: 0.5,
+          ease: 'power2.out',
+        })
+        .to(tabsCircleAfter, {
+          x: () => getRayonOffset().x,
+          y: () => getRayonOffset().y,
+          width: '0rem',
+          height: '0rem',
+          '--glow-size': '0px',
+          duration: 2,
+          ease: 'power2.out',
+        })
+        .to(homeSliderRayon, {
+          scale: 1,
+          transformOrigin: 'center center',
+          duration: 1,
+          ease: 'power2.out',
+        })
+        .to(
+          sliderHomeTitleWrap,
+          {
+            opacity: 1,
+            transform: 'translateY(0)',
+            duration: 1,
+            ease: 'power2.out',
+          },
+          '-=1'
+        );
     });
   });
 });
