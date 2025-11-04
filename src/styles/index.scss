@@ -11,6 +11,11 @@
     opacity: 0;
 }  
 
+.button-swiper.disabled{
+  opacity: .5;
+  pointer-events: none;
+}
+
 
 
 
@@ -169,6 +174,17 @@
     opacity: 0;
     transform: translateY(1rem);
   }
+
+
+
+  .home-slider_container{
+    opacity: 0;
+    transform: translateX(2rem);
+  }
+
+
+
+
 
 }
 

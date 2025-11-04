@@ -1591,12 +1591,13 @@ window.Webflow.push(() => {
         const afterRect = homeSliderTargetAfter.getBoundingClientRect();
         const beforeRect = tabsCircleAfter.getBoundingClientRect();
 
-        // --- Axe X : alignement horizontal absolu ---
+        // --- Axe X : alignement horizontal absolu (inchangé) ---
         const viewportCenterX = window.innerWidth / 2;
         const finalX = viewportCenterX - beforeRect.left;
 
-        // --- Axe Y : translation relative (haut) ---
-        const finalY = afterRect.top - beforeRect.top;
+        // --- Axe Y : alignement sur le centre vertical de homeSliderTargetAfter ---
+        const afterCenterY = afterRect.top + afterRect.height / 2;
+        const finalY = afterCenterY - beforeRect.top;
 
         return { x: finalX, y: finalY };
       }
@@ -1605,9 +1606,9 @@ window.Webflow.push(() => {
         scrollTrigger: {
           trigger: '.section_home-slider',
           start: '-500px 500px',
-          end: '80% 50%',
+          end: '90% 50%',
           scrub: true,
-          markers: true,
+          markers: false,
           invalidateOnRefresh: true,
         },
       });
@@ -1615,7 +1616,7 @@ window.Webflow.push(() => {
       tlHomeSlider
         .to(tabsCircleGradient, {
           opacity: 0,
-          duration: 0.5,
+          duration: 1,
           ease: 'power2.out',
         })
         .to(tabsCircleAfter, {
@@ -1634,11 +1635,30 @@ window.Webflow.push(() => {
           ease: 'power2.out',
         })
         .to(
+          tabsCircleAfter,
+          {
+            opacity: 0,
+            duration: 0.5,
+            ease: 'power2.out',
+          },
+          '-=1.5'
+        )
+        .to(
           sliderHomeTitleWrap,
           {
             opacity: 1,
             transform: 'translateY(0)',
             duration: 1,
+            ease: 'power2.out',
+          },
+          '-=1'
+        )
+        .to(
+          '.home-slider_container',
+          {
+            opacity: 1,
+            transform: 'translateX(0)',
+            duration: 2,
             ease: 'power2.out',
           },
           '-=1'
