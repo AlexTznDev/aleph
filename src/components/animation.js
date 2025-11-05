@@ -1178,6 +1178,7 @@ window.Webflow.push(() => {
       let homeSliderRayon = document.querySelector('[home-slider="rayon"]');
       let tabsCircleGradient = document.querySelector('.home-tabs_gradient');
       let textRevealComponent = document.querySelector('.text-reveal_component');
+      let navLineHero = document.querySelector('.nav_line');
 
       // // --- Détection simple du navigateur ---
       // const isSafari = /^((?!chrome|android).)*safari/i.test(navigator.userAgent);
@@ -1187,6 +1188,15 @@ window.Webflow.push(() => {
       //   heroHomeCircleDark.style.backdropFilter = 'blur(3px)';
       //   heroHomeCircleDark.style.webkitBackdropFilter = 'blur(3px)'; // pour compatibilité complète
       // }
+
+      let resizeTimeout;
+
+      window.addEventListener('resize', () => {
+        clearTimeout(resizeTimeout); // on réinitialise le timer si le resize continue
+        resizeTimeout = setTimeout(() => {
+          location.reload(); // recharge la page après 1 seconde sans resize
+        }, 500);
+      });
 
       // --- TL Hero au chargement ---
       let tlHomeHeroStart = gsap.timeline({
@@ -1346,6 +1356,15 @@ window.Webflow.push(() => {
             color: 'var(--base-color--white-radiance)',
             duration: 1,
             ease: 'power2.out',
+          },
+          '<'
+        )
+        .to(
+          navLineHero,
+          {
+            backgroundImage: 'linear-gradient(90deg, #efefed, #efefed00)',
+            duration: 0.4,
+            ease: 'power2.inOut',
           },
           '<'
         );
@@ -1686,6 +1705,34 @@ window.Webflow.push(() => {
         duration: 1,
         ease: 'power2.out',
       });
+    });
+
+    mm.add('(max-width: 992px)', () => {
+      let navLineHero = document.querySelector('.nav_line');
+      let tlAnimNav = gsap.timeline({
+        scrollTrigger: {
+          trigger: '.section_reveal-text',
+          start: '-160px top',
+          end: 'bottom bottom',
+          toggleActions: 'play none none reverse',
+          markers: false,
+        },
+      });
+      tlAnimNav
+        .to('.nav_component', {
+          color: 'var(--base-color--white-radiance)',
+          duration: 0,
+          ease: 'power2.out',
+        })
+        .to(
+          navLineHero,
+          {
+            backgroundImage: 'linear-gradient(90deg, #efefed, #efefed00)',
+            duration: 0.4,
+            ease: 'power2.inOut',
+          },
+          '<'
+        );
     });
   });
 });
