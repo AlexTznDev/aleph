@@ -1177,6 +1177,7 @@ window.Webflow.push(() => {
       let homeSliderTargetAfter = document.querySelector('[home-slider="target-after"]');
       let homeSliderRayon = document.querySelector('[home-slider="rayon"]');
       let tabsCircleGradient = document.querySelector('.home-tabs_gradient');
+      let textRevealComponent = document.querySelector('.text-reveal_component');
 
       // // --- Détection simple du navigateur ---
       // const isSafari = /^((?!chrome|android).)*safari/i.test(navigator.userAgent);
@@ -1244,6 +1245,15 @@ window.Webflow.push(() => {
             ease: 'power2.out',
           },
           '-=1.3'
+        )
+        .to(
+          textRevealComponent,
+          {
+            opacity: 1,
+            duration: 1,
+            ease: 'power2.out',
+          },
+          '<'
         );
       // .to(
       //   heroHomeCircleWhite,
