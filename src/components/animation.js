@@ -163,6 +163,7 @@ window.Webflow.push(() => {
         onReverseComplete: () => {
           focusedLink.focus();
           updatePageInfo(initialPageTitle, initialPageUrl);
+          lenis.start();
         },
         onComplete: () => {
           lightboxClose.focus();
