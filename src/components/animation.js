@@ -139,6 +139,26 @@ window.Webflow.push(() => {
   });
 
   $('.lightbox_section').each(function () {
+    let removeCofounders = () => {
+      const heading = document.querySelector('.founders-template_heading');
+      if (!heading) return;
+
+      const headingText = heading.textContent.trim().toLowerCase();
+
+      // Tous les wrappers
+      const cofoundItems = document.querySelectorAll('.founders-template_co-found-link');
+
+      cofoundItems.forEach((item) => {
+        const inner = item.querySelector('[co-founders]');
+        if (!inner) return;
+
+        const innerText = inner.textContent.trim().toLowerCase();
+
+        if (innerText === headingText) {
+          item.style.display = 'none';
+        }
+      });
+    };
     function adjaxModal() {
       let lightbox = $("[tr-ajaxmodal-element='lightbox']");
       let lightboxClose = $("[tr-ajaxmodal-element='lightbox-close']").attr(
@@ -206,7 +226,50 @@ window.Webflow.push(() => {
             tl.play();
             keepFocusWithinLightbox();
             lightboxReady();
+            removeCofounders();
           },
+        });
+      });
+
+      // --- CLIC SUR LES LIENS À L'INTÉRIEUR DE LA MODAL ---
+      $(document).on('click', "[tr-ajaxmodal-element='cms-link-inside-modal']", function (e) {
+        e.preventDefault();
+
+        let linkUrl = $(this).attr('href');
+
+        // FADE OUT DU CONTENU ACTUEL
+        lightboxModal.animate({ opacity: 0 }, 200, function () {
+          $.ajax({
+            url: linkUrl,
+            success: function (response) {
+              // 1. Vider contenu
+              lightboxModal.empty();
+
+              // 2. Récupérer contenu CMS
+              let cmsContent = $(response).find(cmsPageContent);
+              let cmsTitle = $(response).filter('title').text();
+              let cmsUrl = window.location.origin + linkUrl;
+
+              // 3. Update title + URL
+              updatePageInfo(cmsTitle, cmsUrl);
+
+              // 4. Injecter contenu
+              lightboxModal.append(cmsContent);
+
+              // 5. Revenir en haut de la modal (Lenis n'affecte pas ce scroll)
+              lightboxModal.scrollTop(0);
+
+              // 6. Reset opacity (fade-in du nouveau contenu)
+              lightboxModal.css('opacity', 0);
+              lightboxModal.animate({ opacity: 1 }, 250);
+
+              // 7. Relancer scripts internes
+              lightboxClose.focus();
+              keepFocusWithinLightbox();
+              lightboxReady();
+              removeCofounders();
+            },
+          });
         });
       });
 
@@ -221,6 +284,30 @@ window.Webflow.push(() => {
       });
     }
     adjaxModal();
+  });
+
+  $('.founder-template_component').each(function () {
+    let removeCofounders = () => {
+      const heading = document.querySelector('.founders-template_heading');
+      if (!heading) return;
+
+      const headingText = heading.textContent.trim().toLowerCase();
+
+      // Tous les wrappers
+      const cofoundItems = document.querySelectorAll('.founders-template_co-found-link');
+
+      cofoundItems.forEach((item) => {
+        const inner = item.querySelector('[co-founders]');
+        if (!inner) return;
+
+        const innerText = inner.textContent.trim().toLowerCase();
+
+        if (innerText === headingText) {
+          item.style.display = 'none';
+        }
+      });
+    };
+    removeCofounders();
   });
 
   $('.founders_list-item').each(function () {
