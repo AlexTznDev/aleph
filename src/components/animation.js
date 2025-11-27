@@ -885,17 +885,8 @@ window.Webflow.push(() => {
       const $circle = $container.find('.hero_circle-about-contain');
       const $title = $container.find('.about-title');
       const $paragrapheWrap = $container.find('.hero_paragraphe-wrap.is-about');
-      const $aboutImg1 = $container.find('.about_img-wrap.is-1');
-      const $aboutImg2 = $container.find('.about_img-wrap.is-2');
 
-      if (
-        !$titleContain.length ||
-        !$circle.length ||
-        !$title.length ||
-        !$paragrapheWrap.length ||
-        !$aboutImg1.length ||
-        !$aboutImg2.length
-      )
+      if (!$titleContain.length || !$circle.length || !$title.length || !$paragrapheWrap.length)
         return;
 
       $circle.css({
@@ -909,22 +900,6 @@ window.Webflow.push(() => {
       // --- Apparition fluide du cercle ---
       gsap.to($circle, { opacity: 1, duration: 1, delay: 0.5, ease: 'power2.out' });
       gsap.to($paragrapheWrap, { opacity: 1, y: 0, duration: 1, delay: 0.5, ease: 'power2.out' });
-      gsap.to($aboutImg1, {
-        opacity: 0.9,
-        y: 0,
-        x: 0,
-        duration: 2,
-        delay: 0.5,
-        ease: 'power2.out',
-      });
-      gsap.to($aboutImg2, {
-        opacity: 0.9,
-        y: 0,
-        x: 0,
-        duration: 2,
-        delay: 0.5,
-        ease: 'power2.out',
-      });
 
       // --- Placement initial (80% / 80%) ---
       const rect = $titleContain[0].getBoundingClientRect();
@@ -1009,10 +984,6 @@ window.Webflow.push(() => {
           markers: false,
         },
       });
-
-      tlAboutImgWrap
-        .to($aboutImg1, { yPercent: 5, xPercent: 5, duration: 2 })
-        .to($aboutImg2, { yPercent: -5, xPercent: -10, duration: 2 }, '<');
     });
   });
 
