@@ -140,13 +140,20 @@ window.Webflow.push(() => {
 
   $('.lightbox_section').each(function () {
     let removeCofounders = () => {
+      const cofoundItems = document.querySelectorAll('.founders-template_co-found-link');
+
+      // S'il n'y en a qu'un seul → on cache le container et on stoppe tout
+      if (cofoundItems.length === 1) {
+        const container = document.querySelector('.founders_co-founders-container');
+        if (container) container.style.display = 'none';
+        return; // On s'arrête ici
+      }
+
+      // ------- TON CODE ORIGINEL EN DESSOUS --------
       const heading = document.querySelector('.founders-template_heading');
       if (!heading) return;
 
       const headingText = heading.textContent.trim().toLowerCase();
-
-      // Tous les wrappers
-      const cofoundItems = document.querySelectorAll('.founders-template_co-found-link');
 
       cofoundItems.forEach((item) => {
         const inner = item.querySelector('[co-founders]');
@@ -159,6 +166,7 @@ window.Webflow.push(() => {
         }
       });
     };
+
     function adjaxModal() {
       let lightbox = $("[tr-ajaxmodal-element='lightbox']");
       let lightboxClose = $("[tr-ajaxmodal-element='lightbox-close']").attr(
@@ -288,13 +296,20 @@ window.Webflow.push(() => {
 
   $('.founder-template_component').each(function () {
     let removeCofounders = () => {
+      const cofoundItems = document.querySelectorAll('.founders-template_co-found-link');
+
+      // S'il n'y en a qu'un seul → on cache le container et on stoppe tout
+      if (cofoundItems.length === 1) {
+        const container = document.querySelector('.founders_co-founders-container');
+        if (container) container.style.display = 'none';
+        return; // On s'arrête ici
+      }
+
+      // ------- TON CODE ORIGINEL EN DESSOUS --------
       const heading = document.querySelector('.founders-template_heading');
       if (!heading) return;
 
       const headingText = heading.textContent.trim().toLowerCase();
-
-      // Tous les wrappers
-      const cofoundItems = document.querySelectorAll('.founders-template_co-found-link');
 
       cofoundItems.forEach((item) => {
         const inner = item.querySelector('[co-founders]');
