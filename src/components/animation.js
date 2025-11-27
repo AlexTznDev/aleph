@@ -1668,4 +1668,48 @@ window.Webflow.push(() => {
         );
     });
   });
+
+  $('.founders_component').each(function () {
+    const dropdown = document.querySelector('.archives-collection_dropdown-component.is-year');
+    const items = dropdown.querySelectorAll('.archives_checkbox-wrapper');
+    const output = document.querySelector('[dropdown-text-year]');
+
+    items.forEach((item, index) => {
+      item.addEventListener('click', () => {
+        if (index === 0) {
+          setTimeout(() => {
+            output.textContent = 'YEAR';
+          }, 300);
+          return;
+        }
+
+        setTimeout(() => {
+          const label = item.querySelector('.archives_checkbox-label');
+          if (label) output.textContent = label.textContent.trim();
+        }, 0);
+      });
+    });
+  });
+
+  $('.ventures_component').each(function () {
+    const dropdown = document.querySelector('.archives-collection_dropdown-component.is-year');
+    const items = dropdown.querySelectorAll('.archives_checkbox-wrapper');
+    const output = document.querySelector('[dropdown-text-year]');
+
+    items.forEach((item, index) => {
+      item.addEventListener('click', () => {
+        if (index === 0) {
+          setTimeout(() => {
+            output.textContent = 'YEAR';
+          }, 300);
+          return;
+        }
+
+        setTimeout(() => {
+          const label = item.querySelector('.archives_checkbox-label');
+          if (label) output.textContent = label.textContent.trim();
+        }, 0);
+      });
+    });
+  });
 });
