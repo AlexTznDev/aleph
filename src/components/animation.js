@@ -1670,46 +1670,120 @@ window.Webflow.push(() => {
   });
 
   $('.founders_component').each(function () {
-    const dropdown = document.querySelector('.archives-collection_dropdown-component.is-year');
-    const items = dropdown.querySelectorAll('.archives_checkbox-wrapper');
-    const output = document.querySelector('[dropdown-text-year]');
+    function setupDropdown(dropdownSelector, outputSelector) {
+      const dropdown = document.querySelector(dropdownSelector);
+      if (!dropdown) {
+        console.log('⚠️ Dropdown introuvable :', dropdownSelector);
+        return;
+      }
 
-    items.forEach((item, index) => {
-      item.addEventListener('click', () => {
-        if (index === 0) {
+      const items = dropdown.querySelectorAll('.archives_checkbox-wrapper');
+      const output = document.querySelector(outputSelector);
+
+      if (!output) {
+        console.log('⚠️ Output introuvable :', outputSelector);
+        return;
+      }
+
+      console.log('✅ Dropdown trouvé :', dropdownSelector, '→ Output :', outputSelector);
+
+      items.forEach((item, index) => {
+        item.addEventListener('click', () => {
+          console.log('Item cliqué :', item);
+
+          let defaultValue = '';
+          if (outputSelector.includes('year')) defaultValue = 'YEAR';
+          if (outputSelector.includes('theme')) defaultValue = 'THEME';
+          if (outputSelector.includes('role')) defaultValue = 'ROLE';
+
+          if (index === 0) {
+            setTimeout(() => {
+              output.textContent = defaultValue;
+              console.log('Output mis à jour (index 0) :', output, '→', defaultValue);
+            }, 300);
+            return;
+          }
+
           setTimeout(() => {
-            output.textContent = 'YEAR';
-          }, 300);
-          return;
-        }
-
-        setTimeout(() => {
-          const label = item.querySelector('.archives_checkbox-label');
-          if (label) output.textContent = label.textContent.trim();
-        }, 0);
+            const label = item.querySelector('.archives_checkbox-label');
+            if (label) {
+              const value = label.textContent.trim();
+              output.textContent = value;
+              console.log('Output mis à jour :', output, '→', value);
+            } else {
+              console.log("⚠️ Aucun label trouvé dans l'item :", item);
+            }
+          }, 0);
+        });
       });
-    });
+    }
+
+    // ---- YEAR ----
+    setupDropdown('.archives-collection_dropdown-component.is-year', '[dropdown-text-year]');
+
+    // ---- THEME ----
+    setupDropdown('.archives-collection_dropdown-component.is-theme', '[dropdown-text-theme]');
+
+    // ---- ROLE ----
+    setupDropdown('.archives-collection_dropdown-component.is-role', '[dropdown-text-role]');
   });
 
   $('.ventures_component').each(function () {
-    const dropdown = document.querySelector('.archives-collection_dropdown-component.is-year');
-    const items = dropdown.querySelectorAll('.archives_checkbox-wrapper');
-    const output = document.querySelector('[dropdown-text-year]');
+    function setupDropdown(dropdownSelector, outputSelector) {
+      const dropdown = document.querySelector(dropdownSelector);
+      if (!dropdown) {
+        console.log('⚠️ Dropdown introuvable :', dropdownSelector);
+        return;
+      }
 
-    items.forEach((item, index) => {
-      item.addEventListener('click', () => {
-        if (index === 0) {
+      const items = dropdown.querySelectorAll('.archives_checkbox-wrapper');
+      const output = document.querySelector(outputSelector);
+
+      if (!output) {
+        console.log('⚠️ Output introuvable :', outputSelector);
+        return;
+      }
+
+      console.log('✅ Dropdown trouvé :', dropdownSelector, '→ Output :', outputSelector);
+
+      items.forEach((item, index) => {
+        item.addEventListener('click', () => {
+          console.log('Item cliqué :', item);
+
+          let defaultValue = '';
+          if (outputSelector.includes('year')) defaultValue = 'YEAR';
+          if (outputSelector.includes('theme')) defaultValue = 'THEME';
+          if (outputSelector.includes('stage')) defaultValue = 'STAGE';
+
+          if (index === 0) {
+            setTimeout(() => {
+              output.textContent = defaultValue;
+              console.log('Output mis à jour (index 0) :', output, '→', defaultValue);
+            }, 300);
+            return;
+          }
+
           setTimeout(() => {
-            output.textContent = 'YEAR';
-          }, 300);
-          return;
-        }
-
-        setTimeout(() => {
-          const label = item.querySelector('.archives_checkbox-label');
-          if (label) output.textContent = label.textContent.trim();
-        }, 0);
+            const label = item.querySelector('.archives_checkbox-label');
+            if (label) {
+              const value = label.textContent.trim();
+              output.textContent = value;
+              console.log('Output mis à jour :', output, '→', value);
+            } else {
+              console.log("⚠️ Aucun label trouvé dans l'item :", item);
+            }
+          }, 0);
+        });
       });
-    });
+    }
+
+    // ---- YEAR ----
+    setupDropdown('.archives-collection_dropdown-component.is-year', '[dropdown-text-year]');
+
+    // ---- THEME ----
+    setupDropdown('.archives-collection_dropdown-component.is-theme', '[dropdown-text-theme]');
+
+    // ---- ROLE ----
+    setupDropdown('.archives-collection_dropdown-component.is-stage', '[dropdown-text-stage]');
   });
 });
