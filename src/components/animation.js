@@ -1002,8 +1002,8 @@ window.Webflow.push(() => {
           .timeline({
             scrollTrigger: {
               trigger: trigger,
-              start: 'top 70%',
-              end: 'bottom center',
+              start: 'top 80%',
+              end: 'bottom 70%',
               scrub: 1.5,
               markers: false,
             },
@@ -1046,8 +1046,8 @@ window.Webflow.push(() => {
           .timeline({
             scrollTrigger: {
               trigger: trigger,
-              start: '25% 70%',
-              end: 'bottom center',
+              start: '25% 80%',
+              end: 'bottom 70%',
               scrub: 1.5,
               markers: false,
             },
@@ -1786,4 +1786,42 @@ window.Webflow.push(() => {
     // ---- ROLE ----
     setupDropdown('.archives-collection_dropdown-component.is-stage', '[dropdown-text-stage]');
   });
+
+$('.team_component').each(function () {
+  let mm = gsap.matchMedia();
+
+  mm.add('(min-width: 992px)', () => {
+    const $component = $(this);
+    const $circle = $component.find('.team_circle');
+
+    gsap.fromTo(
+      $circle,
+      { opacity: 0 },
+      {
+        opacity: 0.6,
+        duration: 1,
+        ease: 'power2.out',
+        scrollTrigger: {
+          trigger: $circle[0],
+          start: 'top 80%',
+          markers: false,
+        },
+      }
+    );
+
+    gsap.to($circle, {
+      y: '17rem',
+      ease: 'none',
+      scrollTrigger: {
+        trigger: $component[0],
+        start: 'top 50%',
+        end: '50% 50%',
+        scrub: 2,
+        markers: false,
+      },
+    });
+  })
+})
+
+
 });
